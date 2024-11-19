@@ -9,7 +9,7 @@
   "licenseUrl": null,
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "3.2.1",
-    "com.dandydino.elements": ""
+    "com.dandydino.elements": "0.1.0"
   },
   "keywords": [
     "architecture"
