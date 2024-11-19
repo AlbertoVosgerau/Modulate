@@ -10,4 +10,4 @@ com.unity.nuget.newtonsoft-json
 
 DDElements:
 
-[https://github.com/AlbertoVosgerau/DDElements](https://github.com/AlbertoVosgerau/DDElements.git)
+https://github.com/AlbertoVosgerau/DDElements.git
