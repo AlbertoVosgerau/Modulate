@@ -1,13 +1,7 @@
-Before installing, please bring those packages to Unity
+Before installing, please bring those packages to Unity using git URL
 
 Git URL:
 
-https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask
+https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.5.10
 
-Import by name:
-
-com.unity.nuget.newtonsoft-json
-
-DDElements:
-
-https://github.com/AlbertoVosgerau/DDElements.git
+https://github.com/AlbertoVosgerau/DDElements.git#0.1.0
