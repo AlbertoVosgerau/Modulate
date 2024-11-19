@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using DandyDino.Modulate;
 using UnityEngine;
 
@@ -14,7 +12,7 @@ public class ManagerContainer : MonoBehaviour
         for (int i = 0; i < Managers.Count; i++)
         {
             IManager manager = Managers[i];
-            manager.Init();
+            manager.InitAsync();
             manager.RegisterScenes(gameObject.scene);
             manager.onAskForDisposal += OnManagerNeedsDispose;
         }

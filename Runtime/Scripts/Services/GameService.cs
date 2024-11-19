@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace DandyDino.Modulate
@@ -22,12 +20,13 @@ namespace DandyDino.Modulate
         public bool IsEnabled => _isEnabled;
         [HideInInspector] [SerializeField] protected bool _isEnabled = true;
 
-        public virtual async void Init()
+        public virtual async void InitAsync()
         {
             onInitialize?.Invoke(this);
-            await UniTask.DelayFrame(1);
+            await Task.Yield();
             Start();
-            await UniTask.DelayFrame(1);
+            await Task.Yield();
+            await Task.Yield();
             LateStart();
         }
 
