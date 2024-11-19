@@ -9,7 +9,7 @@
   "licenseUrl": null,
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "3.2.1",
-    "com.dandydino.elements": "git+https://github.com/AlbertoVosgerau/DDElements.git"
+    "com.dandydino.elements": ""
   },
   "keywords": [
     "architecture"
