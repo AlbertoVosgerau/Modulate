@@ -7,3 +7,7 @@ https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask
 Import by name:
 
 com.unity.nuget.newtonsoft-json
+
+DDElements:
+
+https://github.com/AlbertoVosgerau/DDElements
