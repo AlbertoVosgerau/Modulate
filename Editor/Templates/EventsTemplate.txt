@@ -1,0 +1,9 @@
+using DandyDino.Modulate.Event;
+
+namespace #Namespace#
+{
+    public class #Name#Events
+    {
+        
+    }
+}

@@ -1,0 +1,10 @@
+using UnityEngine;
+
+namespace #Namespace#
+{
+    [CreateAssetMenu(fileName = "#FileName#", menuName = "#MenuName#")]
+    public class #Name# : ScriptableObject
+    {
+        
+    }
+}

@@ -1,0 +1,15 @@
+using DandyDino.Elements;
+using UnityEditor;
+
+namespace #Namespace#
+{
+    [CustomPropertyDrawer(typeof(#Type#))]
+    public class #Name#PropertyDrawer : DDPropertyDrawer<#Type#>
+    {
+        public override void OnGUI()
+        {
+            base.OnGUI();
+            // Draw your custom Editor logic here
+        }
+    }
+}

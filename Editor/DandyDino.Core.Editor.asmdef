@@ -1,0 +1,19 @@
+{
+    "name": "DandyDino.Modulate.Editor",
+    "rootNamespace": "DandyDino.Modulate",
+    "references": [
+        "GUID:c02e11f95dd7b1a4ebed30b56ab512dd",
+        "GUID:e52704ae87322bb49b0283515920d86b"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

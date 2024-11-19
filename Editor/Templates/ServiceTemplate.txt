@@ -1,0 +1,19 @@
+using System;
+using DandyDino.Modulate;
+
+namespace #Namespace#
+{
+    [Serializable]
+    public class #Name#Service : GameService, IController
+    {
+        public override void Start()
+        {
+            
+        }
+
+        public override void Update()
+        {
+
+        }
+    }
+}

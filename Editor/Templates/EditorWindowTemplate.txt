@@ -1,0 +1,15 @@
+using UnityEditor;
+
+namespace #Namespace#
+{
+    public class #Name# : EditorWindow
+    {
+        private static #Name# _window;
+        
+        [MenuItem("#MenuName#")]
+        public static void Init()
+        {
+            _window = GetWindow<#Name#>();
+        }
+    }
+}
