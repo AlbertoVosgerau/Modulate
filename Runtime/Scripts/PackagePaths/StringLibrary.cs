@@ -11,8 +11,8 @@ namespace DandyDino.Modulate
         public const string SERVICES_COLLECTION_NAME = "ServicesCollection";
         
         public const string MODULATE_WINDOW = "Dandy Dino/Core/Open Modulate Window %&#c";
-        public const string CODE_FACTORY_WINDOW = "Dandy Dino/Modulate/Code Factory %#&n";
-        public const string SMART_NAVIGATOR = "Dandy Dino/Modulate/Smart Navigator %#&v";
+        public const string CODE_FACTORY_WINDOW = "Dandy Dino/Modulate/Code Factory";
+        public const string SMART_NAVIGATOR = "Dandy Dino/Modulate/Smart Navigator";
 
         public const string GO_CREATE_MANAGERS_GAMEOBJECT = "GameObject/Dandy Dino/Modulate/Create Manager Container";
 

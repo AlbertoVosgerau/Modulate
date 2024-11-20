@@ -1,6 +1,7 @@
 using System;
 using DandyDino.Elements;
 using UnityEditor;
+using UnityEditor.ShortcutManagement;
 using UnityEngine;
 
 namespace DandyDino.Modulate
@@ -12,11 +13,12 @@ namespace DandyDino.Modulate
         private static bool _gameExists;
         private Color _hoverColor = new Color(0.4f, 0.27f, 0.68f, 0.16f);
         
-        [MenuItem(StringLibrary.CODE_FACTORY_WINDOW)]
+        [Shortcut(StringLibrary.CODE_FACTORY_WINDOW, KeyCode.N, ShortcutModifiers.Control | ShortcutModifiers.Alt | ShortcutModifiers.Shift)]
         public static void Init()
         {
-            _currentPath = DDElements.Assets.GetActiveFolderViaReflection();
             _gameExists = GameInspector.GameRootExists();
+            _currentPath = DDElements.Assets.GetActiveFolderViaReflection();
+
             if (string.IsNullOrWhiteSpace(_currentPath) || (focusedWindow != null && focusedWindow.titleContent.text != "Project"))
             {
                 return;

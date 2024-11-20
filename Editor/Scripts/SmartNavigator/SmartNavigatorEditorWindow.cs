@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using DandyDino.Elements;
 using UnityEditor;
+using UnityEditor.ShortcutManagement;
 using UnityEngine;
 
 namespace DandyDino.Modulate
@@ -16,9 +17,14 @@ namespace DandyDino.Modulate
         
         private Vector2 _modulesScroll;
 
-        [MenuItem(StringLibrary.SMART_NAVIGATOR)]
+        [Shortcut(StringLibrary.SMART_NAVIGATOR, KeyCode.V, ShortcutModifiers.Control | ShortcutModifiers.Alt | ShortcutModifiers.Shift)]
         public static void Init()
         {
+            if (! GameInspector.GameRootExists())
+            {
+                return;
+            }
+            
             if ((focusedWindow != null && focusedWindow.titleContent.text != "Project"))
             {
                 return;
