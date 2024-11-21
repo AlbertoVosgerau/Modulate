@@ -20,17 +20,7 @@ public class ManagerContainer : MonoBehaviour
         Modulate.Main.RegisterManagerContainer(this);
     }
 
-    public void OnManagerNeedsDispose(IManager manager)
-    {
-        if (!Managers.Contains(manager))
-        {
-            return;
-        }
-
-        Managers.Remove(manager);
-    }
-
-    public T GetManager <T>(bool forceEnabled = false) where T : Manager<GameService>
+    public T GetManager <T>(bool forceEnabled = false) where T : class, IManager
     {
         T manager = Managers.FirstOrDefault(x => x.GetType() == typeof(T)) as T;
         
@@ -50,6 +40,16 @@ public class ManagerContainer : MonoBehaviour
         }
 
         return null;
+    }
+
+    public void OnManagerNeedsDispose(IManager manager)
+    {
+        if (!Managers.Contains(manager))
+        {
+            return;
+        }
+
+        Managers.Remove(manager);
     }
 
     private void OnEnable()
@@ -79,19 +79,5 @@ public class ManagerContainer : MonoBehaviour
         {
             Managers[i].OnDestroy();
         }
-    }
-    
-    public T GetManager<T>() where T : class, IManager
-    {
-        for (int i = 0; i < Managers.Count; i++)
-        {
-            IManager manager = Managers[i];
-            if (manager.GetType() == typeof(T))
-            {
-                return manager as T;
-            }
-        }
-
-        return null;
     }
 }
