@@ -13,3 +13,5 @@ https://github.com/AlbertoVosgerau/Modulate.git#versionNumber
 Latest version:
 
 https://github.com/AlbertoVosgerau/Modulate.git#0.0.1
+
+![ModulateMap drawio](https://github.com/user-attachments/assets/7c2c9a98-45cb-495f-a942-62ec9222b607)
