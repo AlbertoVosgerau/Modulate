@@ -11,6 +11,8 @@ With Modulate! you can have a project architecture setup in seconds.
 And what's even better, a modular philosophy ensures your code won't turn into spaghetti, while a Event Bus gives you freedom, flexibiliy and avoids strong references. On top of that, a feature toggle enables you to turn features on or off with a single click.
 Let's take a look how it works!
 
+- Documentation in progress -
+
 
 ![ModulateMap drawio](https://github.com/user-attachments/assets/7c2c9a98-45cb-495f-a942-62ec9222b607)
 
