@@ -10,7 +10,7 @@ namespace DandyDino.Modulate
     public abstract class Manager<T> : IManager where T : GameService
     {
         public T Service => _service;
-        protected T _service;
+        private T _service;
         public Action<IController> onInitialize { get; set; }
         public Action<IController> onEnable { get; set; }
         public Action<IController> onDisable { get; set; }
@@ -21,19 +21,20 @@ namespace DandyDino.Modulate
 
         private List<Scene> _scenes = new List<Scene>();
 
-        public bool IsEnabled => _isEnabled;
+        public bool IsEnabled => Application.isPlaying? _isEnabled && ServiceIsEnabled : _isEnabled;
+        private bool ServiceIsEnabled => _service != null && _service.IsEnabled;
 
         [HideInInspector] [SerializeField] protected bool _isEnabled = true;
 
         public virtual async void InitAsync()
         {
-            _service = Modulate.Main.GetService<T>();
-
+            RegisterService();
             if (_service == null || !_service.IsEnabled)
             {
                 SetEnabled(false);
                 return;
             }
+            
             onInitialize?.Invoke(this);
             SetEnabled(_isEnabled);
             await Task.Yield();
@@ -41,6 +42,15 @@ namespace DandyDino.Modulate
             await Task.Yield();
             await Task.Yield();
             LateStart();
+        }
+
+        private void RegisterService()
+        {
+            _service = Modulate.Main.GetService<T>();
+            if (_service != null)
+            {
+                _service.RegisterManager(this);
+            }
         }
 
         private void OnServiceWasEnabled(IController service)
@@ -99,7 +109,7 @@ namespace DandyDino.Modulate
         {
             if (_service == null)
             {
-                _service = Modulate.Main.GetService<T>();
+                RegisterService();
             }
             SceneManager.sceneUnloaded += OnSceneUnloaded;
             onEnable?.Invoke(this);
