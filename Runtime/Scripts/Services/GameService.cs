@@ -13,8 +13,8 @@ namespace DandyDino.Modulate
         public Action<IController> onDestroy { get; set; }
         public Action<IManager> onRegisterManager { get; set; }
         public Action<IManager> onUnregisterManager { get; set; }
-        
-        public IManager Manager { get; }
+
+        public IManager Manager => _manager;
         private IManager _manager;
         
         public bool IsEnabled => _isEnabled;
@@ -32,12 +32,6 @@ namespace DandyDino.Modulate
 
         public void RegisterManager(IManager manager)
         {
-            if (_manager != null)
-            {
-                Debug.LogWarning($"Tried to register Manager {manager.GetType().Name} but it's already registered");
-                return;
-            }
-
             _manager = manager;
             onRegisterManager?.Invoke(_manager);
         }
@@ -64,8 +58,7 @@ namespace DandyDino.Modulate
             {
                 return;
             }
-
-            _manager.SetEnabled(isEnabled);
+            
             if (isEnabled)
             {
                 OnEnable();

@@ -14,13 +14,13 @@ namespace #Namespace#
         public override void OnEnable()
         {
             base.OnEnable();
-            _service.RegisterManager(this);
+            Service.RegisterManager(this);
         }
 
         public override void OnDisable()
         {
             base.OnDisable();
-            _service.UnregisterManager(this);
+            Service.UnregisterManager(this);
         }
 
         public override void Update()
