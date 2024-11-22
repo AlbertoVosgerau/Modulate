@@ -62,7 +62,14 @@ namespace DandyDino.Modulate
                                 DDElements.Rendering.IconButton(DDElements.Icons.Delete(), 16, () =>
                                 {
                                     Undo.RecordObject(serializedObject.targetObject, "Delete Item");
-                                    itemsIst.Remove(item);
+                                    if (Application.isPlaying)
+                                    {
+                                        ((ManagerContainer)serializedObject.targetObject).RemoveManager((IManager)item);
+                                    }
+                                    else
+                                    {
+                                        itemsIst.Remove(item);
+                                    }
                                     DDElements.Assets.SetDirtyAndSave(serializedObject.targetObject);
                                 });
                             });

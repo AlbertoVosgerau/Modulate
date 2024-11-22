@@ -48,6 +48,24 @@ public class ManagerContainer : MonoBehaviour
         return null;
     }
 
+    public void AddManager(IManager manager)
+    {
+        if (!Managers.Contains(manager))
+        {
+            manager.InitAsync();
+            Managers.Add(manager);
+        }
+    }
+
+    public void RemoveManager(IManager manager)
+    {
+        if (Managers.Contains(manager))
+        {
+            manager.Destroy();
+            Managers.Remove(manager);
+        }
+    }
+
     public void OnManagerNeedsDispose(IManager manager)
     {
         if (!Managers.Contains(manager))
@@ -91,7 +109,7 @@ public class ManagerContainer : MonoBehaviour
     {
         for (int i = 0; i < Managers.Count; i++)
         {
-            Managers[i].OnDestroy();
+            Managers[i].Destroy();
         }
     }
 }

@@ -131,6 +131,12 @@ namespace DandyDino.Modulate
 
         public virtual void Destroy()
         {
+            if (_service == null)
+            {
+                return;
+            }
+            
+            _service.UnregisterManager(this);
         }
     }
 }
