@@ -28,6 +28,12 @@ namespace DandyDino.Modulate
         public virtual async void InitAsync()
         {
             _service = Modulate.Main.GetService<T>();
+
+            if (_service == null || !_service.IsEnabled)
+            {
+                SetEnabled(false);
+                return;
+            }
             onInitialize?.Invoke(this);
             SetEnabled(_isEnabled);
             await Task.Yield();
@@ -37,13 +43,18 @@ namespace DandyDino.Modulate
             LateStart();
         }
 
+        private void OnServiceWasEnabled(IController service)
+        {
+            SetEnabled(true);
+        }
+
         public void RegisterScenes(Scene scene)
         {
             if (_scenes.Contains(scene))
             {
                 return;
             }
-            Debug.Log($"Registered scene {scene.name} on {GetType().Name}");
+
             _scenes.Add(scene);
         }
 
@@ -86,6 +97,10 @@ namespace DandyDino.Modulate
 
         public virtual void OnEnable()
         {
+            if (_service == null)
+            {
+                _service = Modulate.Main.GetService<T>();
+            }
             SceneManager.sceneUnloaded += OnSceneUnloaded;
             onEnable?.Invoke(this);
         }

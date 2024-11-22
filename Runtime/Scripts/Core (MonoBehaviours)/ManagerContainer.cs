@@ -12,6 +12,12 @@ public class ManagerContainer : MonoBehaviour
         for (int i = 0; i < Managers.Count; i++)
         {
             IManager manager = Managers[i];
+            
+            if (!manager.IsEnabled)
+            {
+                continue;
+            }
+
             manager.InitAsync();
             manager.RegisterScenes(gameObject.scene);
             manager.onAskForDisposal += OnManagerNeedsDispose;
@@ -61,6 +67,10 @@ public class ManagerContainer : MonoBehaviour
     {
         for (int i = 0; i < Managers.Count; i++)
         {
+            if (!Managers[i].IsEnabled)
+            {
+                continue;
+            }
             Managers[i].OnDisable();
         }
     }
@@ -69,6 +79,10 @@ public class ManagerContainer : MonoBehaviour
     {
         for (int i = 0; i < Managers.Count; i++)
         {
+            if (!Managers[i].IsEnabled)
+            {
+                continue;
+            }
             Managers[i].Update();
         }
     }

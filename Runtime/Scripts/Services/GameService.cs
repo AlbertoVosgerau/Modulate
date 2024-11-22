@@ -59,6 +59,13 @@ namespace DandyDino.Modulate
             {
                 return;
             }
+
+            if (_manager == null)
+            {
+                return;
+            }
+
+            _manager.SetEnabled(isEnabled);
             if (isEnabled)
             {
                 OnEnable();
