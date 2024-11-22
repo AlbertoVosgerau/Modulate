@@ -67,6 +67,10 @@ namespace DandyDino.Modulate
         private void InitializeServices()
         {
             _services = Resources.Load<ServicesCollection>("ServicesCollection");
+            foreach (GameService service in _services.gameServices)
+            {
+                service.InitAsync();
+            }
         }
 
         public List<GameService> GetAllServices()
@@ -167,6 +171,11 @@ namespace DandyDino.Modulate
         {
             foreach (GameService service in Services.gameServices)
             {
+                if (!service.IsEnabled)
+                {
+                    continue;
+                }
+                
                 service.OnDisable();
             }
         }
@@ -183,6 +192,10 @@ namespace DandyDino.Modulate
         {
             foreach (GameService service in Services.gameServices)
             {
+                if (!service.IsEnabled)
+                {
+                    continue;
+                }
                 service.Update();
             }
         }
