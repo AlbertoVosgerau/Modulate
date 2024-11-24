@@ -82,9 +82,7 @@ namespace DandyDino.Modulate
             if (moduleName != "Main")
             {
                 Module mainModule = GameInspector.GetMainModule();
-                string asmdefPath = GameInspector.GetAsmdefPath(mainModule);
-                
-                AssetCreationUtils.AddDependencyToAssemblyDefinition(assemblyDefinitionName, asmdefPath);
+                mainModule.AssemblyDefinition.AddDependency(assemblyDefinitionName);
             }
             
             AssetDatabase.Refresh();

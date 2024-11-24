@@ -85,62 +85,13 @@ namespace DandyDino.Modulate
             DDElements.Layout.Space(10);
             DDElements.Rendering.FlatColorButton("Create".ToGUIContent(), DDElements.Colors.SoftGreen,() =>
             {
-                CreateGame();
+                GameCreator.CreateGame(_path, _gameName, _companyName, _texture, _assembliesToAdd, ()=> _window.Close());
             });
             
             if (UnityEngine.Event.current.keyCode == KeyCode.Return)
             {
-                CreateGame();
+                GameCreator.CreateGame(_path, _gameName, _companyName, _texture, _assembliesToAdd, ()=> _window.Close());
             }
-        }
-
-        // Assembly Definition was disabled as currently the project's philosophy is to contain global data on main module.
-        // This might change in near future, hence the commented code.
-        // Alberto, 17/11/2024. Hello to you from the future, btw!
-        private void CreateGame()
-        {
-            string gameRoot = Path.Combine(_path, _gameName);
-            string resourcesFolder = Path.Combine(gameRoot, "Resources");
-            string modulesFolder = Path.Combine(gameRoot, "Modules");
-            //string editorFolder = Path.Combine(gameRoot, "Editor");
-            //string editorTexturesFolder = Path.Combine(editorFolder, "EditorTextures");
-            string mainServiceFolder = Path.Combine(gameRoot, "MainModule");
-
-            AssetDatabase.CreateFolder(_path, _gameName);
-            AssetDatabase.CreateFolder(gameRoot, "Resources");
-            AssetDatabase.CreateFolder(gameRoot, "MainModule");
-            //AssetDatabase.CreateFolder(gameRoot, "Editor");
-            //AssetDatabase.CreateFolder(editorFolder, "Scripts");
-            //AssetDatabase.CreateFolder(editorFolder, "EditorTextures");
-            AssetDatabase.CreateFolder(gameRoot, "Modules");
-
-            //string assemblyDefinitionName = $"{_companyName}.{_gameName}";
-
-            // List<string> assemblies = new List<string>();
-            // assemblies.Add(StringLibrary.ASSEMBLY_DEFINITION);
-            // assemblies.AddRange(_assembliesToAdd);
-
-            //AssetCreationUtils.CreateAssemblyDefinition(gameRoot, assemblyDefinitionName, assemblyDefinitionName, references: assemblies.ToArray());
-            //AssetCreationUtils.CreateAssemblyDefinition(editorFolder, $"{assemblyDefinitionName}.Editor", assemblyDefinitionName, references: new[] { StringLibrary.ASSEMBLY_DEFINITION_EDITOR, assemblyDefinitionName }, includePlatforms: new[] { "Editor" });
-
-            AssetCreationUtils.CreateServicesCollection($"{resourcesFolder}/ServicesCollection.asset");
-            Game asset = AssetCreationUtils.CreateGameRoot($"{gameRoot}/{_gameName}.asset");
-            asset.SetCompanyName(_companyName);
-            asset.SetGameName(_gameName);
-            if (_texture != null)
-            {
-                asset.SetBannerTexture(_texture);
-                AssetDatabase.Refresh();
-            }
-
-            ModuleCreator.CreateModule(mainServiceFolder, "Main", _assembliesToAdd);
-            
-            EditorUtility.SetDirty(asset);
-            AssetDatabase.SaveAssetIfDirty(asset);
-            AssetDatabase.Refresh();
-            EditorUtility.FocusProjectWindow();
-            DDElements.Assets.PingFolder(modulesFolder);
-            _window.Close();
         }
         
         private void DrawBanner()

@@ -82,11 +82,6 @@ namespace DandyDino.Modulate
            return DDElements.Assets.GetFirstAssetInParentDirectories<Module>(path);
         }
         
-        public static string GetModulePathInParentDirectories(string path)
-        {
-            return DDElements.Assets.GetAssetPath(GetModuleInParentDirectories(path));
-        }
-        
         public static string GetModuleEditorScriptsPath(Module module)
         {
             string modulePath = DDElements.Assets.GetAssetPath(module);
@@ -96,9 +91,32 @@ namespace DandyDino.Modulate
 
         public static string GetAsmdefPath(Module module)
         {
-            string mainModulePath = DDElements.Assets.GetAssetDirectory(module);
-            string asmdefGUID = AssetDatabase.FindAssets("t:asmdef", new []{mainModulePath}).FirstOrDefault();
-            return AssetDatabase.GUIDToAssetPath(asmdefGUID);
+            string modulePath = DDElements.Assets.GetAssetDirectory(module);
+            string[] asmdefGUIDs = AssetDatabase.FindAssets("t:asmdef", new []{modulePath});
+            List<string> paths = new List<string>();
+
+            for (int i = 0; i < asmdefGUIDs.Length; i++)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(asmdefGUIDs[i]);
+                paths.Add(path);
+            }
+            
+            return paths.FirstOrDefault(x => !x.ToLower().Contains(".editor"));
+        }
+        
+        public static string GetEditorAsmdefPath(Module module)
+        {
+            string modulePath = DDElements.Assets.GetAssetDirectory(module);
+            string[] asmdefGUIDs = AssetDatabase.FindAssets("t:asmdef", new []{modulePath});
+            List<string> paths = new List<string>();
+
+            for (int i = 0; i < asmdefGUIDs.Length; i++)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(asmdefGUIDs[i]);
+                paths.Add(path);
+            }
+            
+            return paths.FirstOrDefault(x => x.ToLower().Contains(".editor"));
         }
         
         public static Module GetCurrentModule()
@@ -118,15 +136,15 @@ namespace DandyDino.Modulate
             return GetExistingGameRoot();
         }
         
-        public static ProjectStructure GetProjectStructure()
+        public static ProjectMap GetProjectMap()
         {
-            ProjectStructure projectStructure = new ProjectStructure();
+            ProjectMap projectMap = new ProjectMap();
             
-            projectStructure.game = GetExistingGameRoot();
-            projectStructure.modules = GetModules();
-            projectStructure.mainModule = projectStructure.modules.Where(x => x.ModuleName == "Main").FirstOrDefault();
+            projectMap.game = GetExistingGameRoot();
+            projectMap.modules = GetModules();
+            projectMap.mainModule = projectMap.modules.Where(x => x.ModuleName == "Main").FirstOrDefault();
 
-            return projectStructure;
+            return projectMap;
         }
         
         public static List<(string path, AssemblyDefinition asmdef)> GetGameAssemblyDefinitions()
@@ -237,67 +255,6 @@ namespace DandyDino.Modulate
             string path = AssetDatabase.GUIDToAssetPath(assetGUID);
             ServicesCollection asset = AssetDatabase.LoadAssetAtPath<ServicesCollection>(path);
             return asset;
-        }
-        
-        public static void RenameAssemblyDefinition(AssemblyDefinition content, string oldFilePath, string newFileName)
-        {
-            if (!File.Exists(oldFilePath))
-            {
-                Debug.LogError($"Assembly definition file not found at: {oldFilePath}");
-                return;
-            }
-
-            if (content == null)
-            {
-                Debug.LogError("Failed to parse assembly definition.");
-                return;
-            }
-
-            string oldAssetPath = oldFilePath.Replace(Application.dataPath, "Assets");
-            string oldGuid = AssetDatabase.AssetPathToGUID(oldAssetPath);
-
-            if (string.IsNullOrEmpty(oldGuid))
-            {
-                Debug.LogError("Failed to retrieve GUID for the old assembly definition.");
-                return;
-            }
-
-            string directory = Path.GetDirectoryName(oldFilePath);
-            string newFilePath = Path.Combine(directory, newFileName);
-            string newAssetPath = newFilePath.Replace(Application.dataPath, "Assets");
-
-            if (Path.GetFileName(oldAssetPath) != newFileName)
-            {
-                AssetDatabase.RenameAsset(oldAssetPath, Path.GetFileNameWithoutExtension(newFileName));
-                AssetDatabase.Refresh();
-            }
-
-            string newGuid = AssetDatabase.AssetPathToGUID(newAssetPath);
-            if (string.IsNullOrEmpty(newGuid))
-            {
-                Debug.LogError("Failed to retrieve GUID for the new assembly definition.");
-                return;
-            }
-
-            AssemblyDefinition.ToJson(content, newFilePath);
-            UpdateReferences(oldGuid, newGuid);
-            AssetDatabase.Refresh();
-        }
-
-        private static void UpdateReferences(string oldGuid, string newGuid)
-        {
-            string[] allAssemblyDefinitionPaths =
-                Directory.GetFiles(Application.dataPath, "*.asmdef", SearchOption.AllDirectories);
-
-            foreach (string asmdefPath in allAssemblyDefinitionPaths)
-            {
-                string jsonContent = File.ReadAllText(asmdefPath);
-                if (jsonContent.Contains(oldGuid))
-                {
-                    jsonContent = jsonContent.Replace(oldGuid, newGuid);
-                    File.WriteAllText(asmdefPath, jsonContent);
-                }
-            }
         }
     }
 }

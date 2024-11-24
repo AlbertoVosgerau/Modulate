@@ -13,8 +13,12 @@ namespace DandyDino.Modulate
         
         public string ModulePath => DDElements.Assets.GetAssetPath(this);
         public string ModuleDirectory => Path.GetDirectoryName(ModulePath);
-        public string ModuleEditor => $"{System.IO.Path.GetDirectoryName(ModulePath)}/Editor/Scripts";
-        public string ModuleScripts => $"{System.IO.Path.GetDirectoryName(ModulePath)}/Scripts";
+        public string ModuleEditorScriptsDirectory => $"{System.IO.Path.GetDirectoryName(ModulePath)}/Editor/Scripts";
+        public string ModuleScriptsDirectory => $"{System.IO.Path.GetDirectoryName(ModulePath)}/Scripts";
+
+        public AssemblyDefinition AssemblyDefinition => GameInspector.GetCurrentAssemblyDefinition(ModuleDirectory);
+        public AssemblyDefinition EditorAssemblyDefinition => GameInspector.GetCurrentAssemblyDefinition(ModuleEditorScriptsDirectory);
+        
 
         public void SetModuleName(string name)
         {

@@ -75,9 +75,7 @@ namespace DandyDino.Modulate
                 {
                     continue;
                 }
-                
-                GameInspector.RenameAssemblyDefinition(assembly.asmdef, assembly.path, $"{newName}.asmdef");
-                AssetDatabase.RenameAsset(assembly.path, newName);
+                assembly.asmdef.Rename(assembly.path, newName);
             }
         }
         

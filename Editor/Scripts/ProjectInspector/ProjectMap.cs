@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace DandyDino.Modulate
 {
-    public class ProjectStructure
+    public class ProjectMap
     {
         public Game game;
         public Module mainModule;

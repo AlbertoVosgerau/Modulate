@@ -47,24 +47,7 @@ namespace DandyDino.Modulate
             File.WriteAllText(filePath, jsonString, Encoding.UTF8);
         }
 
-        public static void AddDependencyToAssemblyDefinition(string newDependency, string asmdefPath)
-        {
-            string asmdefText = File.ReadAllText(asmdefPath);
-            AssemblyDefinition asmDef = JsonConvert.DeserializeObject<AssemblyDefinition>(asmdefText);
-
-            string[] newRefArray = new string [asmDef.references.Length + 1];
-
-            for (int i = 0; i < asmDef.references.Length; i++)
-            {
-                newRefArray[i] = asmDef.references[i];
-            }
-
-            newRefArray[^1] = newDependency;
-            asmDef.references = newRefArray;
-            
-            string jsonString = JsonConvert.SerializeObject(asmDef, Formatting.Indented);
-            File.WriteAllText(asmdefPath, jsonString, Encoding.UTF8);
-        }
+        
         
         public static void CreateRootFile<T>(string path, string name, Action<T> onCreate) where T : ScriptableObject
         {

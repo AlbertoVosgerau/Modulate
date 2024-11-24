@@ -61,7 +61,7 @@ namespace DandyDino.Modulate
                     }
                     
                     projectAsmDef.references = references.ToArray();
-                    AssemblyDefinition.ToJson(projectAsmDef, assembliesInProject[j].path);
+                    projectAsmDef.SaveToPath(assembliesInProject[j].path);
                 }
             }
         }
