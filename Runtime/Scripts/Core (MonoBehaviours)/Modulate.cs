@@ -5,57 +5,28 @@ using UnityEngine;
 
 namespace DandyDino.Modulate
 {
+    [AddComponentMenu("")]
     public class Modulate : MonoBehaviour
     {
-        [RuntimeInitializeOnLoadMethod] 
+        private static bool _isInitialized;
+        
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)] 
         public static void Init()
-        { 
-            if (_main == null)
-            {
-                List<Modulate> modulateObjects = FindObjectsByType<Modulate>(FindObjectsSortMode.None).ToList();
-                if (modulateObjects.Count > 0)
-                {
-                    _main = modulateObjects[0];
-                    for (int i = 1; i < modulateObjects.Count; i++)
-                    {
-                        if (Application.isPlaying)
-                        {
-                            Destroy(modulateObjects[i].gameObject);
-                        }
-                        else
-                        {
-                            DestroyImmediate(modulateObjects[i].gameObject);
-                        }
-                    }
-                }
-                
-                if (_main == null && Application.isPlaying)
-                {
-                    GameObject newObject = new GameObject(StringLibrary.MODULATE_NAME);
-                    
-                    _main = newObject.AddComponent<Modulate>();
-                    DontDestroyOnLoad(newObject);
-                }
-            }
-
-            if (Application.isPlaying)
-            {
-                _main.InitializeServices();
-            }
-        }
-
-        public static Modulate Main
         {
-            get
+            if (_isInitialized || !Application.isPlaying)
             {
-                if (_main == null)
-                {
-                    Init();
-                }
-
-                return _main;
+                return;
             }
+            _isInitialized = true;
+            
+            GameObject newObject = new GameObject(StringLibrary.MODULATE_NAME);
+            _main = newObject.AddComponent<Modulate>();
+            DontDestroyOnLoad(newObject);
+
+            _main.InitializeServices();
         }
+
+        public static Modulate Main => _main;
         private static Modulate _main;
 
         public ManagerContainer ManagerContainer => _managerContainer;
@@ -155,17 +126,7 @@ namespace DandyDino.Modulate
                 managerContainer.gameObject.DestroySelf();
             }
         }
-
-        private void OnEnable()
-        {
-            Init();
-            if (Main != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-            InitializeServices();
-        }
+        
 
         private void OnDisable()
         {

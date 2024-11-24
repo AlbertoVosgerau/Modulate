@@ -11,6 +11,7 @@ namespace DandyDino.Modulate
         public void InitAsync();
         public void Start();
         public void LateStart();
+        public void SetEnabled(bool isEnabled);
         public void OnEnable();
         public void OnDisable();
         public void OnDestroy();

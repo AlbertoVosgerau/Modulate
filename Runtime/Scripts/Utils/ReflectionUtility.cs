@@ -7,6 +7,18 @@ namespace DandyDino.Modulate
 {
     public static class ReflectionUtility
     {
+        public static Type GetManagerGenericType(Type classType)
+        {
+            Type baseType = classType.BaseType;
+            
+            if (baseType != null && baseType.IsGenericType && baseType.GetGenericTypeDefinition() == typeof(Manager<>))
+            {
+                return baseType.GetGenericArguments()[0];
+            }
+
+            return null;
+        }
+        
         public static List<Type> GetAllClassesOfType<T>()
         {
             List<Type> result = new List<Type>();
