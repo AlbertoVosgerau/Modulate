@@ -6,7 +6,7 @@ namespace DandyDino.Modulate
         public const string ASSEMBLY_DEFINITION_EDITOR = "DandyDino.Modulate.Editor";
         public const string ELEMENTS_ASSEMBLY_DEFINITION = "DandyDino.Elements";
 
-        public const string MODULATE_NAME = "Modulate";
+        public const string MODULATE_NAME = "Modulate!";
         public const string MANAGER_CONTAINER_NAME = "MangerContainer";
         public const string SERVICES_COLLECTION_NAME = "ServicesCollection";
         

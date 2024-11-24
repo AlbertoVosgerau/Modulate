@@ -7,15 +7,6 @@ namespace DandyDino.Modulate
 {
     public class CreateGameObjectsMenus
     {
-        // Should we allow the creation of a GameObjet? So far we are keeping only the Editor Window
-        //[MenuItem(CorePaths.GO_CREATE_CORE_GAMEOBJECT)]
-        public static void CreateCore()
-        {
-            Modulate.Init();
-            Modulate.Main.transform.SetSiblingIndex(0);
-            Selection.activeObject = Modulate.Main;
-        }
-
         [MenuItem(StringLibrary.GO_CREATE_MANAGERS_GAMEOBJECT)]
         public static void CreateManagersContainer()
         {

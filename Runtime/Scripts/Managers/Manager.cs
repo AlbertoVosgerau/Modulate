@@ -10,7 +10,7 @@ namespace DandyDino.Modulate
     public abstract class Manager<T> : IManager where T : GameService
     {
         public T Service => _service;
-        private T _service;
+        [SerializeField] private T _service;
         public Action<IController> onInitialize { get; set; }
         public Action<IController> onEnable { get; set; }
         public Action<IController> onDisable { get; set; }
@@ -21,8 +21,7 @@ namespace DandyDino.Modulate
 
         private List<Scene> _scenes = new List<Scene>();
 
-        public bool IsEnabled => Application.isPlaying? _isEnabled && ServiceIsEnabled : _isEnabled;
-        private bool ServiceIsEnabled => _service != null && _service.IsEnabled;
+        public bool IsEnabled => _isEnabled;
 
         [HideInInspector] [SerializeField] protected bool _isEnabled = true;
 
@@ -68,7 +67,7 @@ namespace DandyDino.Modulate
             _scenes.Add(scene);
         }
 
-        public virtual void SetEnabled(bool isEnabled)
+        public void SetEnabled(bool isEnabled)
         {
             _isEnabled = isEnabled;
             if (!Application.isPlaying)

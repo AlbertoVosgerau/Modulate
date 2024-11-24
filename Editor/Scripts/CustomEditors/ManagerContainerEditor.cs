@@ -16,6 +16,7 @@ namespace DandyDino.Modulate
         private SerializedProperty _managers;
         private List<bool> _drawContent = new List<bool>();
         private Game _game;
+        private ServicesCollection _collection;
 
         private void OnEnable()
         {
@@ -25,6 +26,7 @@ namespace DandyDino.Modulate
             _drawContent.Clear();
             _drawContent = Enumerable.Repeat(false, _classes.Count).ToList();
             _game = GameInspector.GetGame();
+            _collection = GameInspector.GetServicesCollection();
         }
         
         private void CleanupTarget()
@@ -42,6 +44,17 @@ namespace DandyDino.Modulate
         {
             _managers = serializedObject.FindProperty(nameof(_target.Managers));
             
+            for (int i = 0; i < _managers.arraySize; i++)
+            {
+                SerializedProperty soManager = _managers.GetArrayElementAtIndex(i);
+                Type serviceType = ReflectionUtility.GetManagerGenericType(soManager.managedReferenceValue.GetType());
+                GameService service = _collection.gameServices.FirstOrDefault(x => x.GetType() == serviceType);
+                if (!service.IsEnabled)
+                {
+                    ((IManager)soManager.managedReferenceValue).SetEnabled(false);
+                }
+            }
+
             GUIStyle editorStyle = new GUIStyle();
             editorStyle.normal.background = DDElements.Helpers.GenerateColorTexture(DDElements.Colors.MidLightGray);
             
@@ -51,6 +64,8 @@ namespace DandyDino.Modulate
                 DDElements.Layout.Space(5);
                 DrawEditor();
             }, style: editorStyle);
+            
+            Repaint();
         }
 
         private void DrawEditor()
@@ -64,6 +79,8 @@ namespace DandyDino.Modulate
         {
             DDElements.ReflectionUtilities.AddClassInstanceBar<IManager>(serializedObject, OnAddItem,$"Managers", "Manager", _classes, _target.Managers, DDElements.Colors.MidOrange);
         }
+
+        
 
         private void OnAddItem(IManager manager)
         {

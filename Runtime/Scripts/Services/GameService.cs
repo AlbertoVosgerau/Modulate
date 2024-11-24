@@ -33,6 +33,11 @@ namespace DandyDino.Modulate
         public void RegisterManager(IManager manager)
         {
             _manager = manager;
+            if (!IsEnabled)
+            {
+                _manager.SetEnabled(false);
+            }
+            
             onRegisterManager?.Invoke(_manager);
         }
 
@@ -46,7 +51,7 @@ namespace DandyDino.Modulate
             onRegisterManager?.Invoke(manager);
         }
 
-        public virtual void SetEnabled(bool isEnabled)
+        public void SetEnabled(bool isEnabled)
         {
             _isEnabled = isEnabled;
             if (!Application.isPlaying)
@@ -64,6 +69,8 @@ namespace DandyDino.Modulate
                 OnEnable();
                 return;
             }
+            
+            _manager.SetEnabled(false);
             OnDisable();
         }
 
