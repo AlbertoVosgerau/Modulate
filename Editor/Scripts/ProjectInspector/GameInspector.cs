@@ -256,5 +256,25 @@ namespace DandyDino.Modulate
             ServicesCollection asset = AssetDatabase.LoadAssetAtPath<ServicesCollection>(path);
             return asset;
         }
+        
+        public static List<string> GetAssemblyDefinitionNames()
+        {
+            List<(string path, AssemblyDefinition asmdef)> assemblies = GameInspector.GetGameAssemblyDefinitions();
+            List<string> names = new List<string>();
+
+            for (int i = 0; i < assemblies.Count; i++)
+            {
+                names.Add(assemblies[i].asmdef.name);
+            }
+
+            return names;
+        }
+
+        public static List<string> GetAllClassesPaths()
+        {
+            Game game = GameInspector.GetGame();
+            List<string> classes = DDElements.Assets.GetClassesPathsDirectory(game.GameDirectory);
+            return classes;
+        }
     }
 }

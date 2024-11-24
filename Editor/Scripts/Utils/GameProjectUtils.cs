@@ -13,13 +13,13 @@ namespace DandyDino.Modulate
         public static void RenameInWholeProject(string oldStr, string newStr)
         {
             Game game = GameInspector.GetGame();
-            List<string> names = GetAssemblyDefinitionNames();
+            List<string> names = GameInspector.GetAssemblyDefinitionNames();
             List<(string path, AssemblyDefinition asmdef)> assemblies = GameInspector.GetGameAssemblyDefinitions().Where(x => names.Contains(x.asmdef.name)).ToList();
 
             oldStr = oldStr.Trim();
             oldStr = oldStr.Replace(" ", "");
             
-            List<string> classes = GetAllClassesPaths();
+            List<string> classes = GameInspector.GetAllClassesPaths();
             for (int i = 0; i < classes.Count; i++)
             {
                 string classPath = classes[i].Replace("\\", "/");
@@ -77,26 +77,6 @@ namespace DandyDino.Modulate
                 }
                 assembly.asmdef.Rename(assembly.path, newName);
             }
-        }
-        
-        public static List<string> GetAssemblyDefinitionNames()
-        {
-            List<(string path, AssemblyDefinition asmdef)> assemblies = GameInspector.GetGameAssemblyDefinitions();
-            List<string> names = new List<string>();
-
-            for (int i = 0; i < assemblies.Count; i++)
-            {
-                names.Add(assemblies[i].asmdef.name);
-            }
-
-            return names;
-        }
-
-        public static List<string> GetAllClassesPaths()
-        {
-            Game game = GameInspector.GetGame();
-            List<string> classes = DDElements.Assets.GetClassesPathsDirectory(game.GameDirectory);
-            return classes;
         }
     }
 }
