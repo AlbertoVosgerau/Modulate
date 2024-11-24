@@ -6,9 +6,9 @@ namespace DandyDino.Modulate
     [CreateAssetMenu(order = 0, fileName = StringLibrary.SERVICES_COLLECTION_NAME, menuName = StringLibrary.SERVICES_COLLECTION_NAME)]
     public class ServicesCollection : ScriptableObject
     {
-        [SerializeReference] public List<GameService> gameServices = new List<GameService>();
+        [SerializeReference] public List<IService> gameServices = new List<IService>();
         
-        public void AddService(GameService service)
+        public void AddService(IService service)
         {
             if (gameServices.Contains(service))
             {
@@ -17,7 +17,7 @@ namespace DandyDino.Modulate
             gameServices.Add(service);
         }
 
-        public void RemoveService(GameService service)
+        public void RemoveService(IService service)
         {
             if (!gameServices.Contains(service))
             {

@@ -48,7 +48,7 @@ namespace DandyDino.Modulate
             {
                 SerializedProperty soManager = _managers.GetArrayElementAtIndex(i);
                 Type serviceType = ReflectionUtility.GetManagerGenericType(soManager.managedReferenceValue.GetType());
-                GameService service = _collection.gameServices.FirstOrDefault(x => x.GetType() == serviceType);
+                IService service = _collection.gameServices.FirstOrDefault(x => x.GetType() == serviceType);
                 if (!service.IsEnabled)
                 {
                     ((IManager)soManager.managedReferenceValue).SetEnabled(false);

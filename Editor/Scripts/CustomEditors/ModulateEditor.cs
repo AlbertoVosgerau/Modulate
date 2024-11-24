@@ -21,7 +21,7 @@ namespace DandyDino.Modulate
             
             _target = (Modulate)target;
             Debug.LogError($"This component cannot be added in Editor. Please run the game, it will be automatically generated");
-            DestroyImmediate(_target.gameObject);
+            DestroyImmediate(_target);
         }
         
         public override void OnInspectorGUI()

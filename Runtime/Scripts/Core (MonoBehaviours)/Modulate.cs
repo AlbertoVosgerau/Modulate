@@ -38,23 +38,23 @@ namespace DandyDino.Modulate
         private void InitializeServices()
         {
             _services = Resources.Load<ServicesCollection>("ServicesCollection");
-            foreach (GameService service in _services.gameServices)
+            foreach (IService service in _services.gameServices)
             {
                 service.InitAsync();
             }
         }
 
-        public List<GameService> GetAllServices()
+        public List<IService> GetAllServices()
         {
             return Services.gameServices;
         }
 
-        public List<GameService> GetAllActiveServices()
+        public List<IService> GetAllActiveServices()
         {
             return Services.gameServices.Where(x => x.IsEnabled).ToList();
         }
 
-        public T GetService <T>(bool forceEnable = false) where T : GameService
+        public T GetService <T>(bool forceEnable = false) where T : class, IService
         {
             T service = Services.gameServices.FirstOrDefault(x => x.GetType() == typeof(T)) as T;
             if (service == null)
@@ -130,7 +130,7 @@ namespace DandyDino.Modulate
 
         private void OnDisable()
         {
-            foreach (GameService service in Services.gameServices)
+            foreach (IService service in Services.gameServices)
             {
                 if (!service.IsEnabled)
                 {
@@ -143,7 +143,7 @@ namespace DandyDino.Modulate
 
         private void OnDestroy()
         {
-            foreach (GameService service in Services.gameServices)
+            foreach (IService service in Services.gameServices)
             {
                 service.OnDestroy();
             }
@@ -151,7 +151,7 @@ namespace DandyDino.Modulate
 
         private void Update()
         {
-            foreach (GameService service in Services.gameServices)
+            foreach (IService service in Services.gameServices)
             {
                 if (!service.IsEnabled)
                 {

@@ -81,12 +81,12 @@ namespace DandyDino.Modulate
             DDElements.ReflectionUtilities.AddClassInstanceBar(serializedObject, OnAddItem, "Game Services", "Game Service", _classes, _target.gameServices, DDElements.Colors.SoftGreen);
         }
         
-        private void OnAddItem(GameService manager)
+        private void OnAddItem(IService manager)
         {
             DDElements.Assets.SetDirtyAndSave(_target);
         }
         
-        private void DrawToggle(GameService service)
+        private void DrawToggle(IService service)
         {
             DDElements.Rendering.Switch(service.IsEnabled, value =>
             {
@@ -94,7 +94,7 @@ namespace DandyDino.Modulate
             });
         }
 
-        private void DrawServices(SerializedObject so, SerializedProperty property, List<GameService> itemsList)
+        private void DrawServices(SerializedObject so, SerializedProperty property, List<IService> itemsList)
         {
             ManagerContainerRenderingUtility.DrawSerializedObjectsItemsList(_drawContent, so, property, itemsList, DrawToggle);
         }
