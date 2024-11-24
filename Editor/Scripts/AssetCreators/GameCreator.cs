@@ -16,7 +16,6 @@ namespace DandyDino.Modulate
             string mainServiceFolder = Path.Combine(gameRoot, "MainModule");
 
             AssetDatabase.CreateFolder(gamePath, gameName);
-            AssetDatabase.CreateFolder(gameRoot, "Resources");
             AssetDatabase.CreateFolder(gameRoot, "MainModule");
             AssetDatabase.CreateFolder(gameRoot, "Modules");
             
