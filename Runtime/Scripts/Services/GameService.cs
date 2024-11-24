@@ -17,8 +17,6 @@ namespace DandyDino.Modulate
         public IManager Manager => _manager;
         private IManager _manager;
         
-        public bool IsEnabled => _isEnabled;
-        [HideInInspector] [SerializeField] protected bool _isEnabled = true;
 
         public virtual async void InitAsync()
         {
@@ -33,11 +31,6 @@ namespace DandyDino.Modulate
         public void RegisterManager(IManager manager)
         {
             _manager = manager;
-            if (!IsEnabled)
-            {
-                _manager.SetEnabled(false);
-            }
-            
             onRegisterManager?.Invoke(_manager);
         }
 
@@ -49,29 +42,6 @@ namespace DandyDino.Modulate
                 return;
             }
             onRegisterManager?.Invoke(manager);
-        }
-
-        public void SetEnabled(bool isEnabled)
-        {
-            _isEnabled = isEnabled;
-            if (!Application.isPlaying)
-            {
-                return;
-            }
-
-            if (_manager == null)
-            {
-                return;
-            }
-            
-            if (isEnabled)
-            {
-                OnEnable();
-                return;
-            }
-            
-            _manager.SetEnabled(false);
-            OnDisable();
         }
 
         public virtual void OnEnable()

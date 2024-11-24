@@ -12,7 +12,6 @@ namespace DandyDino.Modulate
         public static void CreateGame(string gamePath, string gameName, string companyName, Texture gameBanner, List<string> assembliesToAdd, Action onCreateGame)
         {
             string gameRoot = Path.Combine(gamePath, gameName);
-            string resourcesFolder = Path.Combine(gameRoot, "Resources");
             string modulesFolder = Path.Combine(gameRoot, "Modules");
             string mainServiceFolder = Path.Combine(gameRoot, "MainModule");
 
@@ -21,8 +20,6 @@ namespace DandyDino.Modulate
             AssetDatabase.CreateFolder(gameRoot, "MainModule");
             AssetDatabase.CreateFolder(gameRoot, "Modules");
             
-
-            AssetCreationUtils.CreateServicesCollection($"{resourcesFolder}/ServicesCollection.asset");
             Game asset = AssetCreationUtils.CreateGameRoot($"{gameRoot}/{gameName}.asset");
             asset.SetCompanyName(companyName);
             asset.SetGameName(gameName);

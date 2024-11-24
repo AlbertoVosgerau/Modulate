@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 using UnityEngine;
 
 namespace DandyDino.Modulate
@@ -22,8 +23,6 @@ namespace DandyDino.Modulate
             GameObject newObject = new GameObject(StringLibrary.MODULATE_NAME);
             _main = newObject.AddComponent<Modulate>();
             DontDestroyOnLoad(newObject);
-
-            _main.InitializeServices();
         }
 
         public static Modulate Main => _main;
@@ -32,47 +31,16 @@ namespace DandyDino.Modulate
         public ManagerContainer ManagerContainer => _managerContainer;
         private ManagerContainer _managerContainer;
 
-        public ServicesCollection Services => _services;
-        [SerializeReference] private ServicesCollection _services;
-
-        private void InitializeServices()
-        {
-            _services = Resources.Load<ServicesCollection>("ServicesCollection");
-            foreach (IService service in _services.gameServices)
-            {
-                service.InitAsync();
-            }
-        }
+        private List<IService> _services = new List<IService>();
 
         public List<IService> GetAllServices()
         {
-            return Services.gameServices;
+            return ServiceFactory.GetAllServices();
         }
 
-        public List<IService> GetAllActiveServices()
+        public T GetService <T>() where T : class, IService, new()
         {
-            return Services.gameServices.Where(x => x.IsEnabled).ToList();
-        }
-
-        public T GetService <T>(bool forceEnable = false) where T : class, IService
-        {
-            T service = Services.gameServices.FirstOrDefault(x => x.GetType() == typeof(T)) as T;
-            if (service == null)
-            {
-                return null;
-            }
-            
-            if (!service.IsEnabled)
-            {
-                if (forceEnable)
-                {
-                    service.SetEnabled(true);
-                    return service;
-                }
-                Debug.LogWarning($"Service of type {typeof(T).Name} exists but it is not enabled");
-                return null;
-            }
-
+            T service = ServiceFactory.GetService<T>();
             return service;
         }
         
@@ -126,37 +94,11 @@ namespace DandyDino.Modulate
                 managerContainer.gameObject.DestroySelf();
             }
         }
-        
-
-        private void OnDisable()
-        {
-            foreach (IService service in Services.gameServices)
-            {
-                if (!service.IsEnabled)
-                {
-                    continue;
-                }
-                
-                service.OnDisable();
-            }
-        }
-
-        private void OnDestroy()
-        {
-            foreach (IService service in Services.gameServices)
-            {
-                service.OnDestroy();
-            }
-        }
 
         private void Update()
         {
-            foreach (IService service in Services.gameServices)
+            foreach (IService service in ServiceFactory.GetAllServices())
             {
-                if (!service.IsEnabled)
-                {
-                    continue;
-                }
                 service.Update();
             }
         }

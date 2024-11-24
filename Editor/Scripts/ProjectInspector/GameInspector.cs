@@ -248,14 +248,6 @@ namespace DandyDino.Modulate
             AssemblyDefinition asmdefData = JsonConvert.DeserializeObject<AssemblyDefinition>(jsonContent);
             return asmdefData;
         }
-
-        public static ServicesCollection GetServicesCollection()
-        {
-            string assetGUID = AssetDatabase.FindAssets("t:ServicesCollection").FirstOrDefault();
-            string path = AssetDatabase.GUIDToAssetPath(assetGUID);
-            ServicesCollection asset = AssetDatabase.LoadAssetAtPath<ServicesCollection>(path);
-            return asset;
-        }
         
         public static List<string> GetAssemblyDefinitionNames()
         {

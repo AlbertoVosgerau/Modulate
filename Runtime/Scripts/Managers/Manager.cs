@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 namespace DandyDino.Modulate
 {
     [Serializable]
-    public abstract class Manager<T> : IManager where T : GameService
+    public abstract class Manager<T> : IManager where T : GameService, new()
     {
         public T Service => _service;
         [SerializeField] private T _service;
@@ -25,15 +25,13 @@ namespace DandyDino.Modulate
 
         [HideInInspector] [SerializeField] protected bool _isEnabled = true;
 
+        protected Manager()
+        {
+        }
+
         public virtual async void InitAsync()
         {
             RegisterService();
-            if (_service == null || !_service.IsEnabled)
-            {
-                SetEnabled(false);
-                return;
-            }
-            
             onInitialize?.Invoke(this);
             SetEnabled(_isEnabled);
             await Task.Yield();

@@ -2,7 +2,7 @@ using System;
 
 namespace DandyDino.Modulate
 {
-    public interface IController : ITogglable
+    public interface IController
     {
         public Action<IController> onInitialize { get; set; }
         public Action<IController> onEnable { get; set; }
@@ -11,9 +11,6 @@ namespace DandyDino.Modulate
         public void InitAsync();
         public void Start();
         public void LateStart();
-        public void SetEnabled(bool isEnabled);
-        public void OnEnable();
-        public void OnDisable();
         public void OnDestroy();
         public void Update();
         public void Destroy();

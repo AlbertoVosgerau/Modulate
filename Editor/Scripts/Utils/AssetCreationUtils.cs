@@ -46,8 +46,6 @@ namespace DandyDino.Modulate
             
             File.WriteAllText(filePath, jsonString, Encoding.UTF8);
         }
-
-        
         
         public static void CreateRootFile<T>(string path, string name, Action<T> onCreate) where T : ScriptableObject
         {
@@ -61,16 +59,6 @@ namespace DandyDino.Modulate
             AssetDatabase.CreateAsset(rootFile, path);
             AssetDatabase.SaveAssets();
         }
-
-        public static ServicesCollection CreateServicesCollection(string path)
-        {
-            ServicesCollection servicesCollection = ScriptableObject.CreateInstance<ServicesCollection>();
-            
-            AssetDatabase.CreateAsset(servicesCollection, path);
-            AssetDatabase.SaveAssets();
-            return servicesCollection;
-        }
-        
         
         public static Game CreateGameRoot(string path)
         {
