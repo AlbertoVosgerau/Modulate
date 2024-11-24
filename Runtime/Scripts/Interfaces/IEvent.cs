@@ -1,4 +1,4 @@
-namespace DandyDino.Modulate.Event
+namespace DandyDino.Modulate
 {
     public interface IEvent
     {
