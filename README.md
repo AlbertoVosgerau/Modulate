@@ -24,11 +24,12 @@ The ManagerContainer lifecycle is managed by Modulate! Main class, and the Manag
 
 A GameService takes care of business logic and doesn't live inside any MonoBehaviour class. It's a reference loaded by Modulate.Main and it works in pair with a Manager. The Manager has a reference to it's service and they can freely comunicate interally. It's highly advisable to make use of async libraries like Unitask and make it async for most purposes.
 
-The ManagerContainer is a Monobehaviour class that hosts all the Managers. It has a custom inspector designed to nest every manager
+The ManagerContainer is a Monobehaviour class that hosts all the Managers. It has a custom inspector designed to nest every manager.
 
 
 
 ![ModulateMap drawio](https://github.com/user-attachments/assets/7c2c9a98-45cb-495f-a942-62ec9222b607)
+
 
 
 
