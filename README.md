@@ -36,7 +36,7 @@ The ManagerContainer is a Monobehaviour class that hosts all the Managers. It ha
 
 Before installing, please import this package using Gir URL:
 
-https://github.com/AlbertoVosgerau/DDElements.git#0.1.3
+https://github.com/AlbertoVosgerau/DDElements.git#0.1.4
 
 Then use this link to add this package:
 
