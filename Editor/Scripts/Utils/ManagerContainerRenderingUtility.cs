@@ -20,6 +20,7 @@ namespace DandyDino.Modulate
                         T item = itemsIst[i];
                         SerializedProperty property = serializedProperty.GetArrayElementAtIndex(i);
                         string managerName = property.managedReferenceValue.GetType().Name;
+                        string moduleName = Regex.Replace(managerName, @"Manager$", "");
                 
                         DDElements.Layout.Column(() =>
                         {
@@ -29,7 +30,6 @@ namespace DandyDino.Modulate
                                 DDElements.Layout.Space(10);
                                 DDElements.Rendering.IconButton(DDElements.Icons.Folder("Show in Project"), 16, () =>
                                 {
-                                    string moduleName = Regex.Replace(managerName, @"Manager$", "");
                                     moduleName = Regex.Replace(moduleName, @"Service", "");
                                     Module module = GameInspector.GetModule(moduleName);
                                     
@@ -39,6 +39,8 @@ namespace DandyDino.Modulate
                                 
                                 GUILayout.Label(managerName);
                                 DDElements.Layout.FlexibleSpace();
+                                
+                                
 
                                 DDElements.Rendering.IconButton(DDElements.Icons.ScriptGray("Edit Manager"), 16, () =>
                                 {
@@ -59,6 +61,47 @@ namespace DandyDino.Modulate
                                 });
                                 
                                 DDElements.Layout.Space(10);
+                                
+                                DDElements.Rendering.IconButton(DDElements.Icons.ScriptGray("Edit Service"), 16, () =>
+                                {
+                                    DDElements.Assets.LoadScriptByName($"{moduleName}Service", out object managedObject);
+                                    if (managedObject != null)
+                                    {
+                                        Type type = managedObject.GetType();
+                                        string assetPath = DDElements.Assets.GetScriptPathFromType(type);
+                                        if (!string.IsNullOrEmpty(assetPath))
+                                        {
+                                            AssetDatabase.OpenAsset(AssetDatabase.LoadAssetAtPath<MonoScript>(assetPath));
+                                        }
+                                        else
+                                        {
+                                            Debug.LogWarning($"Script path not found for type: {type.Name}");
+                                        }
+                                    }
+                                });
+                                
+                                DDElements.Layout.Space(10);
+                                
+                                DDElements.Rendering.IconButton(DDElements.Icons.ScriptGray("Edit Events Class"), 16, () =>
+                                {
+                                    DDElements.Assets.LoadScriptByName($"{moduleName}Events", out object managedObject);
+                                    if (managedObject != null)
+                                    {
+                                        Type type = managedObject.GetType();
+                                        string assetPath = DDElements.Assets.GetScriptPathFromType(type);
+                                        if (!string.IsNullOrEmpty(assetPath))
+                                        {
+                                            AssetDatabase.OpenAsset(AssetDatabase.LoadAssetAtPath<MonoScript>(assetPath));
+                                        }
+                                        else
+                                        {
+                                            Debug.LogWarning($"Script path not found for type: {type.Name}");
+                                        }
+                                    }
+                                });
+                                
+                                
+                                DDElements.Layout.Space(30);
                                 DDElements.Rendering.IconButton(DDElements.Icons.Delete(), 16, () =>
                                 {
                                     Undo.RecordObject(serializedObject.targetObject, "Delete Item");
