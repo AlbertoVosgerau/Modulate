@@ -42,7 +42,7 @@ namespace DandyDino.Modulate
                                 
                                 
 
-                                DDElements.Rendering.IconButton(DDElements.Icons.ScriptGray("Edit Manager"), 16, () =>
+                                DDElements.Rendering.IconButton(DDElements.Icons.CogWheel("Edit Manager"), 16, () =>
                                 {
                                     object managedObject = property.managedReferenceValue;
                                     if (managedObject != null)
@@ -82,7 +82,7 @@ namespace DandyDino.Modulate
                                 
                                 DDElements.Layout.Space(10);
                                 
-                                DDElements.Rendering.IconButton(DDElements.Icons.ScriptGray("Edit Events Class"), 16, () =>
+                                DDElements.Rendering.IconButton(DDElements.Icons.Envelope("Edit Events Class"), 16, () =>
                                 {
                                     DDElements.Assets.LoadScriptByName($"{moduleName}Events", out object managedObject);
                                     if (managedObject != null)
