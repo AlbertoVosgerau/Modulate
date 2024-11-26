@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using NUnit.Framework;
 using UnityEngine;
 
 namespace DandyDino.Modulate
@@ -30,8 +28,6 @@ namespace DandyDino.Modulate
 
         public ManagerContainer ManagerContainer => _managerContainer;
         private ManagerContainer _managerContainer;
-
-        private List<IService> _services = new List<IService>();
 
         public List<IService> GetAllServices()
         {
@@ -92,14 +88,6 @@ namespace DandyDino.Modulate
                 _managerContainer.Managers.Add(manager);
                 manager.onAskForDisposal += _managerContainer.OnManagerNeedsDispose;
                 managerContainer.gameObject.DestroySelf();
-            }
-        }
-
-        private void Update()
-        {
-            foreach (IService service in ServiceFactory.GetAllServices())
-            {
-                service.Update();
             }
         }
     }

@@ -89,7 +89,7 @@ public class ManagerContainer : MonoBehaviour
             {
                 continue;
             }
-            Managers[i].OnDisable();
+            Managers[i].SetEnabled(false);
         }
     }
 
@@ -102,6 +102,30 @@ public class ManagerContainer : MonoBehaviour
                 continue;
             }
             Managers[i].Update();
+        }
+    }
+
+    private void LateUpdate()
+    {
+        for (int i = 0; i < Managers.Count; i++)
+        {
+            if (!Managers[i].IsEnabled)
+            {
+                continue;
+            }
+            Managers[i].LateUpdate();
+        }
+    }
+    
+    private void FixedUpdate()
+    {
+        for (int i = 0; i < Managers.Count; i++)
+        {
+            if (!Managers[i].IsEnabled)
+            {
+                continue;
+            }
+            Managers[i].FixedUpdate();
         }
     }
 

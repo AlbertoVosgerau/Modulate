@@ -7,9 +7,8 @@ namespace DandyDino.Modulate
     [Serializable]
     public abstract class GameService : IService
     {
+        private bool _isInitialized = false;
         public Action<IController> onInitialize { get; set; }
-        public Action<IController> onEnable { get; set; }
-        public Action<IController> onDisable { get; set; }
         public Action<IController> onDestroy { get; set; }
         public Action<IManager> onRegisterManager { get; set; }
         public Action<IManager> onUnregisterManager { get; set; }
@@ -20,8 +19,12 @@ namespace DandyDino.Modulate
 
         public virtual async void InitAsync()
         {
+            if (_isInitialized)
+            {
+                return;
+            }
             onInitialize?.Invoke(this);
-            await Task.Yield();
+            _isInitialized = true;
             Start();
             await Task.Yield();
             await Task.Yield();
@@ -41,22 +44,13 @@ namespace DandyDino.Modulate
             {
                 return;
             }
-            onRegisterManager?.Invoke(manager);
-        }
-
-        public virtual void OnEnable()
-        {
-            onEnable?.Invoke(this);
-        }
-
-        public virtual void OnDisable()
-        {
-            onDisable?.Invoke(this);
+            onUnregisterManager?.Invoke(manager);
+            Destroy();
         }
 
         public virtual void OnDestroy()
         {
-            onDestroy?.Invoke(this);
+            
         }
 
         public virtual void Start()
@@ -74,11 +68,12 @@ namespace DandyDino.Modulate
 
         }
 
-        public virtual void Destroy()
+        public void Destroy()
         {
             if (Application.isPlaying)
             {
                 OnDestroy();
+                onDestroy?.Invoke(this);
             }
         }
     }

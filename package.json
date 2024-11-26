@@ -1,6 +1,6 @@
 {
   "name": "com.dandydino.modulate",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "displayName": "Modulate!",
   "description": "This package is my personal architecture project for simple projects.\nIt avoids MonoBehaviour for any logic whatsoever and stores a list of global services in an asset in Resources, while relies on an EditorWindow for management, so NO GAMEOBJECT required for core architecture until runtime.\n\nThis is an experimental project and is likely to undergo many changes in the future. ",
   "unity": null,

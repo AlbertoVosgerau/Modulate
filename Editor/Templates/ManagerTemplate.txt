@@ -11,18 +11,6 @@ namespace #Namespace#
 
         }
 
-        public override void OnEnable()
-        {
-            base.OnEnable();
-            Service.RegisterManager(this);
-        }
-
-        public override void OnDisable()
-        {
-            base.OnDisable();
-            Service.UnregisterManager(this);
-        }
-
         public override void Update()
         {
 

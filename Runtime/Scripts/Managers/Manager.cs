@@ -11,6 +11,9 @@ namespace DandyDino.Modulate
     {
         public T Service => _service;
         [SerializeField] private T _service;
+
+        private bool _isInitialized = false;
+        
         public Action<IController> onInitialize { get; set; }
         public Action<IController> onEnable { get; set; }
         public Action<IController> onDisable { get; set; }
@@ -31,10 +34,15 @@ namespace DandyDino.Modulate
 
         public virtual async void InitAsync()
         {
+            if (_isInitialized)
+            {
+                OnEnableInternal();
+                return;
+            }
             RegisterService();
             onInitialize?.Invoke(this);
             SetEnabled(_isEnabled);
-            await Task.Yield();
+            _isInitialized = true;
             Start();
             await Task.Yield();
             await Task.Yield();
@@ -48,11 +56,6 @@ namespace DandyDino.Modulate
             {
                 _service.RegisterManager(this);
             }
-        }
-
-        private void OnServiceWasEnabled(IController service)
-        {
-            SetEnabled(true);
         }
 
         public void RegisterScenes(Scene scene)
@@ -74,10 +77,10 @@ namespace DandyDino.Modulate
             }
             if (isEnabled)
             {
-                OnEnable();
+                OnEnableInternal();
                 return;
             }
-            OnDisable();
+            OnDisableInternal();
         }
 
         private void OnSceneUnloaded(Scene scene)
@@ -102,7 +105,7 @@ namespace DandyDino.Modulate
         {
         }
 
-        public virtual void OnEnable()
+        private void OnEnableInternal()
         {
             if (_service == null)
             {
@@ -110,30 +113,54 @@ namespace DandyDino.Modulate
             }
             SceneManager.sceneUnloaded += OnSceneUnloaded;
             onEnable?.Invoke(this);
+            OnEnable();
+        }
+
+        public virtual void LateUpdate()
+        {
+            
+        }
+
+        public virtual void FixedUpdate()
+        {
+            
+        }
+
+        public virtual void OnEnable()
+        {
+            
+        }
+
+        private void OnDisableInternal()
+        {
+            onDisable?.Invoke(this);
+            OnDisable();
         }
 
         public virtual void OnDisable()
         {
-            onDisable?.Invoke(this);
+            
         }
 
         public virtual void OnDestroy()
         {
-            onDestroy?.Invoke(this);
+           
         }
 
         public virtual void Update()
         {
         }
 
-        public virtual void Destroy()
+        public void Destroy()
         {
             if (_service == null)
             {
                 return;
             }
             
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
             _service.UnregisterManager(this);
+            onDestroy?.Invoke(this);
         }
     }
 }

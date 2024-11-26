@@ -10,10 +10,5 @@ namespace #Namespace#
         {
             
         }
-
-        public override void Update()
-        {
-
-        }
     }
 }
