@@ -86,7 +86,6 @@ namespace DandyDino.Modulate
                 }
                 
                 _managerContainer.Managers.Add(manager);
-                manager.onAskForDisposal += _managerContainer.OnManagerNeedsDispose;
                 managerContainer.gameObject.DestroySelf();
             }
         }
