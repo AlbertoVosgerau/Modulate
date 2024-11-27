@@ -13,10 +13,8 @@ namespace DandyDino.Modulate
         {
             string gameRoot = Path.Combine(gamePath, gameName);
             string modulesFolder = Path.Combine(gameRoot, "Modules");
-            string mainServiceFolder = Path.Combine(gameRoot, "MainModule");
 
             AssetDatabase.CreateFolder(gamePath, gameName);
-            AssetDatabase.CreateFolder(gameRoot, "MainModule");
             AssetDatabase.CreateFolder(gameRoot, "Modules");
             
             Game asset = AssetCreationUtils.CreateGameRoot($"{gameRoot}/{gameName}.asset");
@@ -28,7 +26,7 @@ namespace DandyDino.Modulate
                 AssetDatabase.Refresh();
             }
 
-            ModuleCreator.CreateModule(mainServiceFolder, "Main", assembliesToAdd);
+            ModuleCreator.CreateModule(gameRoot, "Main", assembliesToAdd);
             
             EditorUtility.SetDirty(asset);
             AssetDatabase.SaveAssetIfDirty(asset);

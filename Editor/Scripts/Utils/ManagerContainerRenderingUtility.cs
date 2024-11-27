@@ -22,8 +22,10 @@ namespace DandyDino.Modulate
                         SerializedProperty property = serializedProperty.GetArrayElementAtIndex(i);
                         string managerName = property.managedReferenceValue.GetType().Name;
                         string moduleName = Regex.Replace(managerName, @"Manager$", "");
-                        Module module = GameInspector.GetModule(moduleName);
-                        string eventsClassPath = $"{module.ModuleScriptsDirectory}/Events/{moduleName}Events.cs";
+                        Module module = moduleName == "Main"? GameInspector.GetMainModule() : GameInspector.GetModule(moduleName);
+                        
+                        
+                        string eventsClassPath = module == null? "" : $"{module.ModuleScriptsDirectory}/Events/{moduleName}Events.cs";
                 
                         DDElements.Layout.Column(() =>
                         {

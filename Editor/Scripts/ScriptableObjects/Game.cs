@@ -21,7 +21,7 @@ namespace DandyDino.Modulate
         public string GameDirectory => Path.GetDirectoryName(GamePath);
         public string GameEditor => $"{System.IO.Path.GetDirectoryName(GamePath)}/Editor";
         public string GameModules => $"{System.IO.Path.GetDirectoryName(GamePath)}/Modules";
-        public string GameMainModule => $"{System.IO.Path.GetDirectoryName(GamePath)}/MainModule";
+        public string GameMainModule => $"{System.IO.Path.GetDirectoryName(GamePath)}";
 
         public Texture BannerTexture => _bannerTexture == null? _bannerTexture = ModulateRoot.GetCoreRoot().Banner : _bannerTexture;
         [HideInInspector][SerializeField] private Texture _bannerTexture;
