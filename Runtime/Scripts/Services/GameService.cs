@@ -17,7 +17,7 @@ namespace DandyDino.Modulate
         private IManager _manager;
         
 
-        public virtual async void InitAsync()
+        public async void InitAsync()
         {
             if (_isInitialized)
             {

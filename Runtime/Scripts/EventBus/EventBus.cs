@@ -1,19 +1,13 @@
 using System;
 using System.Collections.Generic;
 
-namespace DandyDino.Modulate.Event
+namespace DandyDino.Modulate.Events
 {
     public static class EventBus<T> where T : IEvent
     {
-        static readonly HashSet<IEventBinding<T>> bindings = new HashSet<IEventBinding<T>>();
-
-        public static void Register(ref EventBinding<T> eventBinding, Action action)
-        {
-            eventBinding = new EventBinding<T>(action);
-            Register(eventBinding);
-        }
+        private static readonly HashSet<IEventBinding<T>> bindings = new HashSet<IEventBinding<T>>();
         
-        public static void Register(ref EventBinding<T> eventBinding, Action<T> action)
+        public static void Register(out EventBinding<T> eventBinding, Action<T> action)
         {
             eventBinding = new EventBinding<T>(action);
             Register(eventBinding);
@@ -21,7 +15,7 @@ namespace DandyDino.Modulate.Event
 
         private static void Register(EventBinding<T> binding) => bindings.Add(binding);
 
-        public static void Deregister(EventBinding<T> binding) => bindings.Remove(binding);
+        public static void Unregister(EventBinding<T> binding) => bindings.Remove(binding);
 
         public static void Raise(T @event)
         {
@@ -32,7 +26,7 @@ namespace DandyDino.Modulate.Event
             }
         }
 
-        static void Clear()
+        private static void Clear()
         {
             bindings.Clear();
         }

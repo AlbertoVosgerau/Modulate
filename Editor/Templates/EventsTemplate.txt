@@ -1,9 +1,11 @@
-using DandyDino.Modulate.Event;
+using DandyDino.Modulate;
 
 namespace #Namespace#
 {
-    public class #Name#Events
-    {
-        
-    }
+    // Event Example
+    // public struct SomeEvent : IEvent
+    // {
+    //     public string someString;
+    // }
+    // 
 }

@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace DandyDino.Modulate
 {
-    [AddComponentMenu("")]
+    [DisallowMultipleComponent, AddComponentMenu("")]
     public class Modulate : MonoBehaviour
     {
         private static bool _isInitialized;
         
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)] 
-        public static void Init()
+        internal static void Init()
         {
             if (_isInitialized || !Application.isPlaying)
             {
@@ -29,35 +29,44 @@ namespace DandyDino.Modulate
         public ManagerContainer ManagerContainer => _managerContainer;
         private ManagerContainer _managerContainer;
 
-        public List<IService> GetAllServices()
+        /// <summary>
+        /// Gets all existing Game Services
+        /// </summary>
+        /// <returns>List of all initialized Game Services in game</returns>
+        public List<IService> GetAllGameServices()
         {
-            return ServiceFactory.GetAllServices();
+            return GameServicesFactory.GetAllGameServices();
         }
 
-        public T GetService <T>() where T : class, IService, new()
+        /// <summary>
+        /// Get a specific Game Service
+        /// </summary>
+        /// <typeparam name="T">Concrete implementation of IService, effectively any Game Service created in your game that you have access to</typeparam>
+        /// <returns>If exists, returns the Game Service of the desire type. Returns null instead.</returns>
+        public T GetGameService <T>() where T : class, IService, new()
         {
-            T service = ServiceFactory.GetService<T>();
+            T service = GameServicesFactory.GetGameService<T>();
             return service;
         }
         
+        /// <summary>
+        /// Get a Manager from current active Manager Container
+        /// </summary>
+        /// <param name="forceEnable">Should the manager to be forced enabled if found?</param>
+        /// <typeparam name="T">Concrete implementation the Manager</typeparam>
+        /// <returns>If exists, returns the Manager of the desire type. Returns null instead</returns>
         public T GetManager <T>(bool forceEnable = false) where T : class, IManager
         {
-            try
+            T manager = _managerContainer.GetManager<T>();
+            if (manager != null && forceEnable)
             {
-                T manager = _managerContainer.GetManager<T>();
-                if (manager != null && forceEnable)
-                {
-                    manager.SetEnabled(true);
-                }
-                return manager;
+                manager.SetEnabled(true);
             }
-            catch (Exception e)
-            {
-                throw new Exception($"Can't retrieve Manager {typeof(T).Name}. Please make sure you have set the correct dependency.\n{e.Message}");
-            }
+            return manager;
         }
-
-        public void RegisterManagerContainer(ManagerContainer managerContainer)
+        
+        
+        internal void RegisterManagerContainer(ManagerContainer managerContainer)
         {
             if (_managerContainer == null && _managerContainer != managerContainer)
             {

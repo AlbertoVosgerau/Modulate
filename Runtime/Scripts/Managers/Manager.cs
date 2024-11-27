@@ -28,11 +28,7 @@ namespace DandyDino.Modulate
 
         [HideInInspector] [SerializeField] protected bool _isEnabled = true;
 
-        protected Manager()
-        {
-        }
-
-        public virtual async void InitAsync()
+        public async void InitAsync()
         {
             if (_isInitialized)
             {
@@ -51,13 +47,13 @@ namespace DandyDino.Modulate
 
         private void RegisterService()
         {
-            _service = Modulate.Main.GetService<T>();
+            _service = Modulate.Main.GetGameService<T>();
             if (_service != null)
             {
                 _service.RegisterManager(this);
             }
         }
-
+        
         public void RegisterScenes(Scene scene)
         {
             if (_scenes.Contains(scene))

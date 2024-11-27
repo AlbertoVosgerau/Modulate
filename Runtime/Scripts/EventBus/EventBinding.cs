@@ -1,5 +1,5 @@
 ﻿using System;
-namespace DandyDino.Modulate.Event
+namespace DandyDino.Modulate.Events
 {
     public interface IEventBinding<T>
     {
