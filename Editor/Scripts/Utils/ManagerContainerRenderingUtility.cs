@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using DandyDino.Elements;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace DandyDino.Modulate
 {
@@ -21,6 +22,8 @@ namespace DandyDino.Modulate
                         SerializedProperty property = serializedProperty.GetArrayElementAtIndex(i);
                         string managerName = property.managedReferenceValue.GetType().Name;
                         string moduleName = Regex.Replace(managerName, @"Manager$", "");
+                        Module module = GameInspector.GetModule(moduleName);
+                        string eventsClassPath = $"{module.ModuleScriptsDirectory}/Events/{moduleName}Events.cs";
                 
                         DDElements.Layout.Column(() =>
                         {
@@ -42,7 +45,7 @@ namespace DandyDino.Modulate
                                 
                                 
 
-                                DDElements.Rendering.IconButton(DDElements.Icons.CogWheel("Edit Manager"), 16, () =>
+                                DDElements.Rendering.IconButton(DDElements.Icons.CogWheel("Edit Manager class"), 16, () =>
                                 {
                                     object managedObject = property.managedReferenceValue;
                                     if (managedObject != null)
@@ -62,7 +65,7 @@ namespace DandyDino.Modulate
                                 
                                 DDElements.Layout.Space(10);
                                 
-                                DDElements.Rendering.IconButton(DDElements.Icons.ScriptGray("Edit Service"), 16, () =>
+                                DDElements.Rendering.IconButton(DDElements.Icons.ScriptGray("Edit Service class"), 16, () =>
                                 {
                                     DDElements.Assets.LoadScriptByName($"{moduleName}Service", out object managedObject);
                                     if (managedObject != null)
@@ -82,22 +85,16 @@ namespace DandyDino.Modulate
                                 
                                 DDElements.Layout.Space(10);
                                 
-                                DDElements.Rendering.IconButton(DDElements.Icons.Envelope("Edit Events Class"), 16, () =>
+                                DDElements.Rendering.IconButton(DDElements.Icons.Envelope("Edit Events class"), 16, () =>
                                 {
-                                    DDElements.Assets.LoadScriptByName($"{moduleName}Events", out object managedObject);
-                                    if (managedObject != null)
-                                    {
-                                        Type type = managedObject.GetType();
-                                        string assetPath = DDElements.Assets.GetScriptPathFromType(type);
-                                        if (!string.IsNullOrEmpty(assetPath))
-                                        {
-                                            AssetDatabase.OpenAsset(AssetDatabase.LoadAssetAtPath<MonoScript>(assetPath));
-                                        }
-                                        else
-                                        {
-                                            Debug.LogWarning($"Script path not found for type: {type.Name}");
-                                        }
-                                    }
+                                    AssetDatabase.OpenAsset(AssetDatabase.LoadAssetAtPath<MonoScript>(eventsClassPath));
+                                });
+                                
+                                DDElements.Layout.Space(15);
+                                
+                                DDElements.Rendering.IconButton(DDElements.Icons.Unity("Open MonoBehaviour folder"), 16, () =>
+                                {
+                                    DDElements.Assets.PingInsideFolder(module.MonoBehaviourDirectory);
                                 });
                                 
                                 

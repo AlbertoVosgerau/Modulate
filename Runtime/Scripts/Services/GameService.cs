@@ -62,11 +62,7 @@ namespace DandyDino.Modulate
         {
             
         }
-
-        public virtual void Update()
-        {
-
-        }
+        
 
         public void Destroy()
         {

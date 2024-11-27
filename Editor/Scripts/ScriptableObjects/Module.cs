@@ -15,6 +15,7 @@ namespace DandyDino.Modulate
         public string ModuleDirectory => Path.GetDirectoryName(ModulePath);
         public string ModuleEditorScriptsDirectory => $"{System.IO.Path.GetDirectoryName(ModulePath)}/Editor/Scripts";
         public string ModuleScriptsDirectory => $"{System.IO.Path.GetDirectoryName(ModulePath)}/Scripts";
+        public string MonoBehaviourDirectory => $"{ModuleScriptsDirectory}/MonoBehaviours";
 
         public AssemblyDefinition AssemblyDefinition => GameInspector.GetCurrentAssemblyDefinition(ModuleDirectory);
         public AssemblyDefinition EditorAssemblyDefinition => GameInspector.GetCurrentAssemblyDefinition(ModuleEditorScriptsDirectory);
