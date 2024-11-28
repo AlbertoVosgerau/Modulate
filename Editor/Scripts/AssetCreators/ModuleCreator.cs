@@ -29,7 +29,7 @@ namespace DandyDino.Modulate
             AssetDatabase.CreateFolder(moduleRoot, "Editor");
             AssetDatabase.CreateFolder(editorFolder, "Scripts");
 
-            string assemblyDefinitionName = $"{game.CompanyName}.{moduleName}";
+            string assemblyDefinitionName = $"{game.GameName}.{moduleName}";
             
             List<string> assemblies = new List<string>();
             assemblies.Add(StringLibrary.ASSEMBLY_DEFINITION);
@@ -44,7 +44,7 @@ namespace DandyDino.Modulate
                 root.SetModuleName(moduleName);
             });
 
-            string nameSpace = $"{GameInspector.GetExistingGameRoot().name}.{moduleName}";
+            string nameSpace = $"{GameInspector.GetGame().GameName}.{moduleName}";
 
             new ClassGenerator()
             {

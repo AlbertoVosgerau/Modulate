@@ -87,9 +87,9 @@ namespace DandyDino.Modulate
 
         private void InternalGenerateClass(string template, string directory, string className, string classNamespace, bool pingAsset)
         {
-            AssemblyDefinition asmdef = GameInspector.GetCurrentAssemblyDefinition(directory);
-            if (string.IsNullOrWhiteSpace(classNamespace) && asmdef != null)
+            if (string.IsNullOrWhiteSpace(classNamespace))
             {
+                AssemblyDefinition asmdef = GameInspector.GetCurrentAssemblyDefinition(directory);
                 newNamespace = asmdef.rootNamespace;
             }
 
