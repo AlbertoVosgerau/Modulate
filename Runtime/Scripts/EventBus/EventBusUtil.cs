@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-namespace DandyDino.Modulate.Events
+namespace DandyDino.Modulate
 {
     /// <summary>
     /// Contains methods and properties related to event buses and event types in the Unity application.

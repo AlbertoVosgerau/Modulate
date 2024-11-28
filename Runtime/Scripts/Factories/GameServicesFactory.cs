@@ -34,13 +34,13 @@ namespace DandyDino.Modulate
             return newService;
         }
 
-        internal static void RemoveService<T>() where T : IService
+        internal static void RemoveService(IService service)
         {
-            if (_services.ContainsKey(typeof(T)))
+            if (_services.ContainsValue(service))
             {
-                _services.Remove(typeof(T));
-                _services[typeof(T)].Destroy();
+                _services.Remove(service.GetType());
             }
+            GC.Collect();
         }
     }
 }

@@ -7,10 +7,13 @@ namespace DandyDino.Modulate
     [Serializable, DefaultExecutionOrder(-9)]
     public abstract class GameService : IService
     {
+        public bool IsPersistent => _isPersistent;
+        protected bool _isPersistent = false;
+        
         public bool IsInitialized => _isInitialized;
         private bool _isInitialized = false;
         public Action<IController> onInitialize { get; set; }
-        public Action<IController> onDestroy { get; set; }
+        public Action<IController> onDispose { get; set; }
 
         public async void InitAsync()
         {
@@ -28,7 +31,7 @@ namespace DandyDino.Modulate
             LateStart();
         }
         
-        public virtual void OnDestroy()
+        public virtual void OnDispose()
         {
             
         }
@@ -49,12 +52,18 @@ namespace DandyDino.Modulate
         }
         
 
-        public void Destroy()
+        public void Dispose()
         {
+            if (_isPersistent)
+            {
+                return;
+            }
+            
             if (Application.isPlaying)
             {
-                OnDestroy();
-                onDestroy?.Invoke(this);
+                Modulate.Main.DisposeGameService(this);
+                OnDispose();
+                onDispose?.Invoke(this);
             }
         }
     }

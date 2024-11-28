@@ -75,7 +75,7 @@ namespace DandyDino.Modulate
         {
             if (Managers.Contains(manager))
             {
-                manager.Destroy();
+                manager.Dispose();
                 Managers.Remove(manager);
             }
         }
@@ -88,6 +88,7 @@ namespace DandyDino.Modulate
                 return;
             }
 
+            manager.Dispose();
             Managers.Remove(manager);
         }
 
@@ -148,7 +149,7 @@ namespace DandyDino.Modulate
         {
             for (int i = 0; i < Managers.Count; i++)
             {
-                Managers[i].Destroy();
+                Managers[i].Dispose();
             }
         }
     }

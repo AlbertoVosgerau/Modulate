@@ -18,7 +18,7 @@ namespace DandyDino.Modulate
         public Action<IController> onInitialize { get; set; }
         public Action<IController> onEnable { get; set; }
         public Action<IController> onDisable { get; set; }
-        public Action<IController> onDestroy { get; set; }
+        public Action<IController> onDispose { get; set; }
         
         public Action<IManager> onAskForDisposal { get; set; }
         public List<Scene> Scenes => _scenes;
@@ -141,7 +141,7 @@ namespace DandyDino.Modulate
             
         }
 
-        public virtual void OnDestroy()
+        public virtual void OnDispose()
         {
            
         }
@@ -150,15 +150,17 @@ namespace DandyDino.Modulate
         {
         }
 
-        public void Destroy()
+        public void Dispose()
         {
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+            onDispose?.Invoke(this);
+            
             if (_service == null)
             {
                 return;
             }
             
-            SceneManager.sceneUnloaded -= OnSceneUnloaded;
-            onDestroy?.Invoke(this);
+            _service.Dispose();
         }
     }
 }

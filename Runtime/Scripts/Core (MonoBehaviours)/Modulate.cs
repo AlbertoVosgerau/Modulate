@@ -48,6 +48,15 @@ namespace DandyDino.Modulate
             T service = GameServicesFactory.GetGameService<T>();
             return service;
         }
+
+        /// <summary>
+        /// When disposing a service, remove from the factory dictionary
+        /// </summary>
+        /// <param name="service">Concrete implementation of a Game Service to dispose</param>
+        public void DisposeGameService(IService service)
+        {
+            GameServicesFactory.RemoveService(service);
+        }
         
         /// <summary>
         /// Get a Manager from current active Manager Container
