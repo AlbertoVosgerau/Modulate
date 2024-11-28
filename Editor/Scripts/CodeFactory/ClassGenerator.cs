@@ -82,13 +82,13 @@ namespace DandyDino.Modulate
                     break;
             }
             
-            InternalGenerateClass(File.ReadAllText(template), directory, className, pingAsset);
+            InternalGenerateClass(File.ReadAllText(template), directory, className, newNamespace, pingAsset);
         }
 
-        private void InternalGenerateClass(string template, string directory, string className, bool pingAsset)
+        private void InternalGenerateClass(string template, string directory, string className, string classNamespace, bool pingAsset)
         {
             AssemblyDefinition asmdef = GameInspector.GetCurrentAssemblyDefinition(directory);
-            if (asmdef != null)
+            if (string.IsNullOrWhiteSpace(classNamespace) && asmdef != null)
             {
                 newNamespace = asmdef.rootNamespace;
             }
