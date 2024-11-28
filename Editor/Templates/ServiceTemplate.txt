@@ -4,7 +4,7 @@ using DandyDino.Modulate;
 namespace #Namespace#
 {
     [Serializable]
-    public class #Name#Service : GameService, IController
+    public class #Name#Service : GameService
     {
         public override void Start()
         {

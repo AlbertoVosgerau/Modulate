@@ -6,12 +6,13 @@ using UnityEngine.SceneManagement;
 
 namespace DandyDino.Modulate
 {
-    [Serializable]
+    [Serializable, DefaultExecutionOrder(-10)]
     public abstract class Manager<T> : IManager where T : GameService, new()
     {
         public T Service => _service;
         [SerializeField] private T _service;
 
+        public bool IsInitialized => _isInitialized;
         private bool _isInitialized = false;
         
         public Action<IController> onInitialize { get; set; }
@@ -39,6 +40,8 @@ namespace DandyDino.Modulate
             onInitialize?.Invoke(this);
             SetEnabled(_isEnabled);
             _isInitialized = true;
+            Awake();
+            await Task.Yield();
             Start();
             await Task.Yield();
             await Task.Yield();
@@ -48,10 +51,6 @@ namespace DandyDino.Modulate
         private void RegisterService()
         {
             _service = Modulate.Main.GetGameService<T>();
-            if (_service != null)
-            {
-                _service.RegisterManager(this);
-            }
         }
         
         public void RegisterScenes(Scene scene)
@@ -93,10 +92,14 @@ namespace DandyDino.Modulate
             }
         }
 
-        public virtual void Start()
+        public virtual void Awake()
         {
         }
 
+        public virtual void Start()
+        {
+        }
+        
         public virtual void LateStart()
         {
         }
@@ -155,7 +158,6 @@ namespace DandyDino.Modulate
             }
             
             SceneManager.sceneUnloaded -= OnSceneUnloaded;
-            _service.UnregisterManager(this);
             onDestroy?.Invoke(this);
         }
     }

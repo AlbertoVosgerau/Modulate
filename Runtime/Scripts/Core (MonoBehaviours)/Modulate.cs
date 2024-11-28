@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DandyDino.Modulate
 {
-    [DisallowMultipleComponent, AddComponentMenu("")]
+    [DisallowMultipleComponent, AddComponentMenu(""),  DefaultExecutionOrder(-1000)]
     public class Modulate : MonoBehaviour
     {
         private static bool _isInitialized;

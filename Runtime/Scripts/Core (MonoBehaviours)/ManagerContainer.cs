@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace DandyDino.Modulate
 {
-    [DisallowMultipleComponent]
+    [DisallowMultipleComponent,  DefaultExecutionOrder(-100)]
     
     public class ManagerContainer : MonoBehaviour
     {
