@@ -26,7 +26,7 @@ namespace DandyDino.Modulate
 
                 manager.InitAsync();
                 manager.RegisterScenes(gameObject.scene);
-                manager.onAskForDisposal += OnManagerNeedsDispose;
+                EventBus<OnManagerAskForDisposal>.OnEvent += OnManagerNeedsDispose;
             }
 
             Modulate.Main.RegisterManagerContainer(this);
@@ -81,15 +81,15 @@ namespace DandyDino.Modulate
         }
 
 
-        private void OnManagerNeedsDispose(IManager manager)
+        private void OnManagerNeedsDispose(OnManagerAskForDisposal onManagerAskForDisposal)
         {
-            if (!Managers.Contains(manager))
+            if (!Managers.Contains(onManagerAskForDisposal.Manager))
             {
                 return;
             }
 
-            manager.Dispose();
-            Managers.Remove(manager);
+            onManagerAskForDisposal.Manager.Dispose();
+            Managers.Remove(onManagerAskForDisposal.Manager);
         }
 
         private void OnEnable()

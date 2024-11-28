@@ -12,8 +12,6 @@ namespace DandyDino.Modulate
         
         public bool IsInitialized => _isInitialized;
         private bool _isInitialized = false;
-        public Action<IController> onInitialize { get; set; }
-        public Action<IController> onDispose { get; set; }
 
         public async void InitAsync()
         {
@@ -21,7 +19,7 @@ namespace DandyDino.Modulate
             {
                 return;
             }
-            onInitialize?.Invoke(this);
+            EventBus<OnInitializeServer>.Raise(new OnInitializeServer(this));
             _isInitialized = true;
             Awake();
             await Task.Yield();
@@ -63,7 +61,7 @@ namespace DandyDino.Modulate
             {
                 Modulate.Main.DisposeGameService(this);
                 OnDispose();
-                onDispose?.Invoke(this);
+                EventBus<OnDisposeService>.Raise(new OnDisposeService(this));
             }
         }
     }

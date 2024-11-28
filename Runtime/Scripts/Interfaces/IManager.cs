@@ -6,10 +6,6 @@ namespace DandyDino.Modulate
 {
     public interface IManager: IController, ITogglable
     {
-        public Action<IController> onEnable { get; set; }
-        public Action<IController> onDisable { get; set; }
-        public Action<IManager> onAskForDisposal { get; set; }
-        
         public List<Scene> Scenes { get;}
         public void LateUpdate();
         public void FixedUpdate();

@@ -9,7 +9,6 @@ namespace DandyDino.Modulate
     {
         private static readonly HashSet<IEventBinding<T>> bindings = new HashSet<IEventBinding<T>>();
         
-        
         public static event Action<T> OnEvent
         {
             add

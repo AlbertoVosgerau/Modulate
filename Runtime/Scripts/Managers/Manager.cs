@@ -15,12 +15,6 @@ namespace DandyDino.Modulate
         public bool IsInitialized => _isInitialized;
         private bool _isInitialized = false;
         
-        public Action<IController> onInitialize { get; set; }
-        public Action<IController> onEnable { get; set; }
-        public Action<IController> onDisable { get; set; }
-        public Action<IController> onDispose { get; set; }
-        
-        public Action<IManager> onAskForDisposal { get; set; }
         public List<Scene> Scenes => _scenes;
 
         private List<Scene> _scenes = new List<Scene>();
@@ -37,7 +31,7 @@ namespace DandyDino.Modulate
                 return;
             }
             RegisterService();
-            onInitialize?.Invoke(this);
+            EventBus<OnInitializeManager>.Raise(new OnInitializeManager(this));
             SetEnabled(_isEnabled);
             _isInitialized = true;
             Awake();
@@ -88,7 +82,7 @@ namespace DandyDino.Modulate
             if (_scenes.Count == 0)
             {
                 Debug.Log($"{GetType().Name} is not needed anymore and has been disposed.");
-                onAskForDisposal?.Invoke(this);
+                EventBus<OnManagerAskForDisposal>.Raise(new OnManagerAskForDisposal(this));
             }
         }
 
@@ -111,7 +105,7 @@ namespace DandyDino.Modulate
                 RegisterService();
             }
             SceneManager.sceneUnloaded += OnSceneUnloaded;
-            onEnable?.Invoke(this);
+            EventBus<OnEnableController>.Raise(new OnEnableController(this));
             OnEnable();
         }
 
@@ -132,7 +126,7 @@ namespace DandyDino.Modulate
 
         private void OnDisableInternal()
         {
-            onDisable?.Invoke(this);
+            EventBus<OnDisableManager>.Raise(new OnDisableManager(this));
             OnDisable();
         }
 
@@ -153,7 +147,7 @@ namespace DandyDino.Modulate
         public void Dispose()
         {
             SceneManager.sceneUnloaded -= OnSceneUnloaded;
-            onDispose?.Invoke(this);
+            EventBus<OnDisposeManager>.Raise(new OnDisposeManager(this));
             
             if (_service == null)
             {
