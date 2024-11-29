@@ -9,7 +9,7 @@ namespace DandyDino.Modulate
 {
     [DisallowMultipleComponent,  DefaultExecutionOrder(-100)]
     
-    public class ManagerContainer : MonoBehaviour
+    public sealed class ManagerContainer : MonoBehaviour
     {
         [SerializeReference] internal List<IManager> Managers = new List<IManager>();
     

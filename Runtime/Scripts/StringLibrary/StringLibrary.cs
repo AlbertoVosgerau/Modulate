@@ -9,6 +9,7 @@ namespace DandyDino.Modulate
         public const string MODULATE_NAME = "Modulate!";
         public const string MANAGER_CONTAINER_NAME = "MangerContainer";
         public const string SERVICES_COLLECTION_NAME = "ServicesCollection";
+        public const string INJECTOR_NAME = "Modulate! Injector";
         
         public const string MODULATE_WINDOW = "Dandy Dino/Modulate!/Open Modulate Window %&#c";
         public const string CODE_FACTORY_WINDOW = "Dandy Dino/Modulate!/Code Factory";

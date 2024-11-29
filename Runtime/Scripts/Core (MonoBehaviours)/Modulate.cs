@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace DandyDino.Modulate
 {
-    [DisallowMultipleComponent, AddComponentMenu(""),  DefaultExecutionOrder(-1000)]
-    public class Modulate : MonoBehaviour
+    [DisallowMultipleComponent, AddComponentMenu(""),  DefaultExecutionOrder(-999)]
+    public sealed class Modulate : MonoBehaviour
     {
         private static bool _isInitialized;
         
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)] 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)] 
         internal static void Init()
         {
             if (_isInitialized || !Application.isPlaying)
