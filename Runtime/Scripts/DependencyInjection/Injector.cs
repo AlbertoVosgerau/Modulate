@@ -6,42 +6,19 @@ using UnityEngine;
 
 namespace DandyDino.Modulate
 {
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Method | AttributeTargets.Property)]
-    public sealed class InjectAttribute : Attribute
-    {
-        public InjectAttribute(){}
-    }
-    
-    [AttributeUsage(AttributeTargets.Method)]
-    public sealed class ProvideAttribute : Attribute
-    {
-        public ProvideAttribute(){}
-    }
-
-
-    public interface IDependencyProvider
-    {
-        // public void RegisterProvider()
-        // {
-        //     Injector.System.AddProvider(this);
-        // }
-        //
-        // public void UnregisterProvider()
-        // {
-        //     Injector.System.RemoveProvider(this);
-        // }
-    }
-
     [DisallowMultipleComponent, AddComponentMenu(""),  DefaultExecutionOrder(-500)]
     public class Injector : MonoBehaviour
     {
         private const BindingFlags BINDING_FLAGS = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-
+        
         public static Injector System => _system;
         private static Injector _system;
         private Dictionary<Type, object> _registry = new Dictionary<Type, object>();
         private List<IDependencyProvider> _providers;
 
+        /// <summary>
+        /// Add a Dependency Provider to the system
+        /// </summary>
         public void AddProvider(IDependencyProvider provider)
         {
             if (_providers.Contains(provider))
@@ -54,6 +31,9 @@ namespace DandyDino.Modulate
             UpdateProviders();
         }
 
+        /// <summary>
+        /// Remove a Dependency Provider from the system
+        /// </summary>
         public void RemoveProvider(IDependencyProvider provider)
         {
             if (!_providers.Contains(provider))
