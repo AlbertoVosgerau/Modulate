@@ -32,7 +32,7 @@ namespace DandyDino.Modulate
         // }
     }
 
-    [DisallowMultipleComponent, AddComponentMenu(""),  DefaultExecutionOrder(-1000)]
+    [DisallowMultipleComponent, AddComponentMenu(""),  DefaultExecutionOrder(-500)]
     public class Injector : MonoBehaviour
     {
         private const BindingFlags BINDING_FLAGS = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
@@ -75,16 +75,15 @@ namespace DandyDino.Modulate
             }
             
             GameObject newObject = new GameObject(StringLibrary.INJECTOR_NAME);
-            _system = newObject.AddComponent<Injector>();
-            DontDestroyOnLoad(newObject);
-            
-            _system.InitializeInternal();
+            newObject.AddComponent<Injector>();
         }
 
-        private void InitializeInternal()
+        private void Awake()
         {
-            _providers = _system.GetMonoBehaviours().OfType<IDependencyProvider>().ToList();
+            _system = GetComponent<Injector>();
+            _providers = _system.GetValidObjects().OfType<IDependencyProvider>().ToList();
             UpdateProviders();
+            DontDestroyOnLoad(this);
         }
 
         private void UpdateProviders()
@@ -94,7 +93,7 @@ namespace DandyDino.Modulate
                 RegisterProvider(provider);
             }
 
-            IEnumerable<MonoBehaviour> injectables = GetMonoBehaviours().Where(x => IsInjectable(x));
+            IEnumerable<object> injectables = GetValidObjects().Where(x => IsInjectable(x));
 
             foreach (var injectable in injectables)
             {
@@ -175,18 +174,26 @@ namespace DandyDino.Modulate
                 var providedInstance = methodInfo.Invoke(provider, null);
                 if (providedInstance != null)
                 {
-                    _registry.Add(returnType, providedInstance);
+                    _registry.TryAdd(returnType, providedInstance);
                     continue;
                 }
 
                 throw new Exception($"Provider {provider.GetType().Namespace} returned null for {returnType.Name}");
             }
         }
-
-        // It won't be MonoBehaviours in my system. Use Reflection to get them from Managers or something like that.
-        private MonoBehaviour[] GetMonoBehaviours()
+        
+        private object[] GetValidObjects()
         {
-            return FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.InstanceID);
+            List<object> objects = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.InstanceID).Cast<object>().ToList();
+            ManagerContainer managerContainer = Modulate.Main.ManagerContainer;
+            if (managerContainer != null)
+            {
+                objects.AddRange(managerContainer.Managers);
+            }
+            
+            objects.AddRange(Modulate.Main.GetAllGameServices());
+            
+            return objects.ToArray();
         }
     }
 }
