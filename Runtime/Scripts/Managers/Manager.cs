@@ -9,12 +9,15 @@ namespace DandyDino.Modulate
     [Serializable, DefaultExecutionOrder(-10)]
     public abstract class Manager<T> : IManager where T : GameService, new()
     {
+        public Action<IController> onDispose { get; set; }
+        public Action<IManager> onEnable { get; set;}
+        public Action<IManager> onDisable { get; set; }
         public T Service => _service;
         [SerializeField] private T _service;
 
         public bool IsInitialized => _isInitialized;
         private bool _isInitialized = false;
-        
+
         public List<Scene> Scenes => _scenes;
 
         private List<Scene> _scenes = new List<Scene>();
@@ -31,7 +34,6 @@ namespace DandyDino.Modulate
                 return;
             }
             RegisterService();
-            EventBus<OnInitializeManager>.Raise(new OnInitializeManager(this));
             SetEnabled(_isEnabled);
             _isInitialized = true;
             Awake();
@@ -60,6 +62,7 @@ namespace DandyDino.Modulate
         public void SetEnabled(bool isEnabled)
         {
             _isEnabled = isEnabled;
+            
             if (!Application.isPlaying)
             {
                 return;
@@ -82,7 +85,7 @@ namespace DandyDino.Modulate
             if (_scenes.Count == 0)
             {
                 Debug.Log($"{GetType().Name} is not needed anymore and has been disposed.");
-                EventBus<OnManagerAskForDisposal>.Raise(new OnManagerAskForDisposal(this));
+                Dispose();
             }
         }
 
@@ -105,7 +108,7 @@ namespace DandyDino.Modulate
                 RegisterService();
             }
             SceneManager.sceneUnloaded += OnSceneUnloaded;
-            EventBus<OnEnableController>.Raise(new OnEnableController(this));
+            onEnable?.Invoke(this);
             OnEnable();
         }
 
@@ -126,7 +129,7 @@ namespace DandyDino.Modulate
 
         private void OnDisableInternal()
         {
-            EventBus<OnDisableManager>.Raise(new OnDisableManager(this));
+            onDisable?.Invoke(this);
             OnDisable();
         }
 
@@ -147,7 +150,7 @@ namespace DandyDino.Modulate
         public void Dispose()
         {
             SceneManager.sceneUnloaded -= OnSceneUnloaded;
-            EventBus<OnDisposeManager>.Raise(new OnDisposeManager(this));
+            onDispose?.Invoke(this);
             
             if (_service == null)
             {

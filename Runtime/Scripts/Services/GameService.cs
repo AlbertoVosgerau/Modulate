@@ -9,7 +9,8 @@ namespace DandyDino.Modulate
     {
         public bool IsPersistent => _isPersistent;
         protected bool _isPersistent = false;
-        
+
+        public Action<IController> onDispose { get; set; }
         public bool IsInitialized => _isInitialized;
         private bool _isInitialized = false;
 
@@ -19,7 +20,6 @@ namespace DandyDino.Modulate
             {
                 return;
             }
-            EventBus<OnInitializeServer>.Raise(new OnInitializeServer(this));
             _isInitialized = true;
             Awake();
             await Task.Yield();
@@ -61,7 +61,7 @@ namespace DandyDino.Modulate
             {
                 Modulate.Main.DisposeGameService(this);
                 OnDispose();
-                EventBus<OnDisposeService>.Raise(new OnDisposeService(this));
+                onDispose?.Invoke(this);
             }
         }
     }

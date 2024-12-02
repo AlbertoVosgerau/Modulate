@@ -12,6 +12,7 @@ namespace DandyDino.Modulate
     public sealed class ManagerContainer : MonoBehaviour
     {
         [SerializeReference] internal List<IManager> Managers = new List<IManager>();
+        internal bool markedToDestroy = false;
     
         internal void Init()
         {
@@ -26,7 +27,7 @@ namespace DandyDino.Modulate
 
                 manager.InitAsync();
                 manager.RegisterScenes(gameObject.scene);
-                EventBus<OnManagerAskForDisposal>.OnEvent += OnManagerNeedsDispose;
+                manager.onDispose += OnManagerDispose;
             }
 
             Modulate.Main.RegisterManagerContainer(this);
@@ -80,17 +81,18 @@ namespace DandyDino.Modulate
             }
         }
 
-
-        private void OnManagerNeedsDispose(OnManagerAskForDisposal onManagerAskForDisposal)
+        private void OnManagerDispose(IController controller)
         {
-            if (!Managers.Contains(onManagerAskForDisposal.Manager))
+            IManager manager = (IManager)controller;
+            if (!Managers.Contains(manager))
             {
                 return;
             }
-
-            onManagerAskForDisposal.Manager.Dispose();
-            Managers.Remove(onManagerAskForDisposal.Manager);
+            
+            Managers.Remove(manager);
+            Debug.Log($"Remove manager {manager.GetType()}");
         }
+
 
         private void OnEnable()
         {
@@ -99,6 +101,11 @@ namespace DandyDino.Modulate
 
         private void OnDisable()
         {
+            if (markedToDestroy)
+            {
+                return;
+            }
+            
             for (int i = 0; i < Managers.Count; i++)
             {
                 if (!Managers[i].IsEnabled)

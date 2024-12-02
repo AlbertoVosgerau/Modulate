@@ -97,6 +97,7 @@ namespace DandyDino.Modulate
 
         private void DisposeManagerContainer(ManagerContainer managerContainer)
         {
+            managerContainer.markedToDestroy = true;
             foreach (IManager manager in managerContainer.Managers)
             {
                 bool hasManagerOfType = false;

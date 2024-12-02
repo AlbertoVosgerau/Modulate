@@ -4,6 +4,7 @@ namespace DandyDino.Modulate
 {
     public interface IController : IDisposable
     {
+        public Action<IController> onDispose { get; set; }
         public bool IsInitialized { get; }
         
         public void InitAsync();
