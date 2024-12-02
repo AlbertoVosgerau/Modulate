@@ -3,11 +3,14 @@ using System.Collections.Generic;
 
 namespace DandyDino.Modulate
 {
-    internal static class GameServicesFactory
+    internal class GameServicesFactory
     {
-        private static Dictionary<Type, IService> _services = new Dictionary<Type, IService>();
+        public static GameServicesFactory Factory => _factory ??= new GameServicesFactory();
+        private static GameServicesFactory _factory;
         
-        internal static List<IService> GetAllGameServices()
+        private Dictionary<Type, IService> _services = new Dictionary<Type, IService>();
+        
+        internal List<IService> GetAllGameServices()
         {
             List<IService> allServices = new List<IService>();
             foreach (IService service in _services.Values)
@@ -21,7 +24,7 @@ namespace DandyDino.Modulate
             return allServices;
         }
         
-        internal static T GetGameService<T>() where T : class, IService, new()
+        internal T GetGameService<T>() where T : class, IService, new()
         {
             if (_services.ContainsKey(typeof(T)))
             {
@@ -34,7 +37,7 @@ namespace DandyDino.Modulate
             return newService;
         }
 
-        internal static void RemoveService(IService service)
+        internal void RemoveService(IService service)
         {
             if (_services.ContainsValue(service))
             {

@@ -35,7 +35,7 @@ namespace DandyDino.Modulate
         /// <returns>List of all initialized Game Services in game</returns>
         public List<IService> GetAllGameServices()
         {
-            return GameServicesFactory.GetAllGameServices();
+            return GameServicesFactory.Factory.GetAllGameServices();
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace DandyDino.Modulate
         /// <returns>If exists, returns the Game Service of the desire type. Returns null instead.</returns>
         public T GetGameService <T>() where T : class, IService, new()
         {
-            T service = GameServicesFactory.GetGameService<T>();
+            T service = GameServicesFactory.Factory.GetGameService<T>();
             return service;
         }
 
@@ -55,9 +55,18 @@ namespace DandyDino.Modulate
         /// <param name="service">Concrete implementation of a Game Service to dispose</param>
         public void DisposeGameService(IService service)
         {
-            GameServicesFactory.RemoveService(service);
+            GameServicesFactory.Factory.RemoveService(service);
         }
-        
+
+        /// <summary>
+        /// Get all existing Managers
+        /// </summary>
+        /// <returns>A list of all Managers that exist at the moment</returns>
+        public List<IManager> GetAllManagers ()
+        {
+            return _managerContainer == null ? null : _managerContainer.Managers;
+        }
+
         /// <summary>
         /// Get a Manager from current active Manager Container
         /// </summary>
@@ -73,8 +82,7 @@ namespace DandyDino.Modulate
             }
             return manager;
         }
-        
-        
+
         internal void RegisterManagerContainer(ManagerContainer managerContainer)
         {
             if (_managerContainer == null && _managerContainer != managerContainer)
@@ -84,6 +92,11 @@ namespace DandyDino.Modulate
                 return;
             }
 
+            DisposeManagerContainer(managerContainer);
+        }
+
+        private void DisposeManagerContainer(ManagerContainer managerContainer)
+        {
             foreach (IManager manager in managerContainer.Managers)
             {
                 bool hasManagerOfType = false;
