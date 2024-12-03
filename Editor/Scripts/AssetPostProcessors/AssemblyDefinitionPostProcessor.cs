@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEngine;
 
 namespace DandyDino.Modulate
 {
@@ -20,6 +21,14 @@ namespace DandyDino.Modulate
                 if (!deletedAsset.EndsWith(".asmdef"))
                 {
                     continue;
+                }
+                
+                string fileName = Path.GetFileNameWithoutExtension(deletedAsset);
+                string projectRoot = Directory.GetParent(Application.dataPath).FullName;
+                string snlToDelete = Path.Combine(projectRoot, $"{fileName}.csproj");
+                if (File.Exists(snlToDelete))
+                {
+                    File.Delete(snlToDelete);
                 }
 
                 if (!asmdefFound)
@@ -41,8 +50,7 @@ namespace DandyDino.Modulate
                     }
                     asmdefFound = true;
                 }
-            
-                string fileName = Path.GetFileNameWithoutExtension(deletedAsset);
+                
             
                 for (int j = 0; j < assembliesInProject.Count; j++)
                 {
