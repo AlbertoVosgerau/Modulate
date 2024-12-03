@@ -216,8 +216,8 @@ namespace DandyDino.Modulate
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
             return currentAssembly.GetName().Name;
         }
-
-        public static AssemblyDefinition GetCurrentAssemblyDefinition(string folderPath)
+        
+        public static string GetCurrentAssemblyDefinitionPath(string folderPath)
         {
             string currentPath = folderPath;
             List<string> asmdefFiles = new List<string>();
@@ -234,6 +234,34 @@ namespace DandyDino.Modulate
                 int lastSlashIndex = currentPath.LastIndexOf('/');
                 if (lastSlashIndex == -1) break;
                 currentPath = currentPath.Substring(0, lastSlashIndex);
+            }
+            
+            if (asmdefFiles.Count == 0)
+            {
+                Debug.LogWarning($"No .asmdef file found in folder: {folderPath}");
+                return null;
+            }
+            
+            string asmdefFilePath = asmdefFiles[0];
+            return asmdefFilePath;
+        }
+
+        public static AssemblyDefinition GetCurrentAssemblyDefinition(string folderPath)
+        {
+            List<string> asmdefFiles = new List<string>();
+            while (!string.IsNullOrEmpty(folderPath))
+            {
+                string[] assets = AssetDatabase.FindAssets("t:asmdef" , new[] { folderPath });
+                
+                foreach (string guid in assets)
+                {
+                    string assetPath = AssetDatabase.GUIDToAssetPath(guid);
+                    asmdefFiles.Add(assetPath);
+                }
+                
+                int lastSlashIndex = folderPath.LastIndexOf('/');
+                if (lastSlashIndex == -1) break;
+                folderPath = folderPath.Substring(0, lastSlashIndex);
             }
             
             if (asmdefFiles.Count == 0)

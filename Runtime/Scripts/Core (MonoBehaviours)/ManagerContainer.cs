@@ -90,7 +90,6 @@ namespace DandyDino.Modulate
             }
             
             Managers.Remove(manager);
-            Debug.Log($"Remove manager {manager.GetType()}");
         }
 
 

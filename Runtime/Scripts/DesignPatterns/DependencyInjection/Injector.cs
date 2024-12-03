@@ -48,7 +48,6 @@ namespace DandyDino.Modulate
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)] 
         private static void Init()
         {
-            Debug.Log($"Starting Injector");
             if (_system != null && Application.isPlaying)
             {
                 Destroy(_system.gameObject);

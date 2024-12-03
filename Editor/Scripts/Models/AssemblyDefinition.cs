@@ -46,7 +46,7 @@ namespace DandyDino.Modulate
             references = referencesList.ToArray();
         }
         
-        public void RemoveDependency(string dependency)
+        public void RemoveDependency(string dependency, string path)
         {
             List<string> referencesList = references.ToList();
             if (referencesList.Contains(dependency))
