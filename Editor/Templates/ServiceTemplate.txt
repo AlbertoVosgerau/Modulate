@@ -4,8 +4,10 @@ using DandyDino.Modulate;
 namespace #Namespace#
 {
     [Serializable]
-    public class #Name#Service : GameService
+    public class #Name#Service : GameService, IDependencyProvider
     {
+        [Provide] private #Name#Service Provide => this;
+    
         public override void Start()
         {
             

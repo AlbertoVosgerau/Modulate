@@ -88,8 +88,8 @@ namespace DandyDino.Modulate
 
             foreach (FieldInfo fieldInfo in injectableFields)
             {
-                var fieldType = fieldInfo.FieldType;
-                var resolvedInstance = GetInstance(fieldType);
+                Type fieldType = fieldInfo.FieldType;
+                object resolvedInstance = GetInstance(fieldType);
                 if (resolvedInstance == null)
                 {
                     return;
@@ -104,7 +104,7 @@ namespace DandyDino.Modulate
             {
                 IEnumerable<Type> requiredParameters = methodInfo.GetParameters().Select(x => x.ParameterType);
 
-                var resolvedInstances = requiredParameters.Select(GetInstance).ToArray();
+                object[] resolvedInstances = requiredParameters.Select(GetInstance).ToArray();
 
                 if (resolvedInstances.Any(x => x == null))
                 {
@@ -112,6 +112,20 @@ namespace DandyDino.Modulate
                 }
 
                 methodInfo.Invoke(injectable, resolvedInstances);
+            }
+            
+            IEnumerable<PropertyInfo> injectableProperties = type.GetProperties(BINDING_FLAGS).Where(x => Attribute.IsDefined(x, typeof(InjectAttribute)));
+
+            foreach (PropertyInfo propertyInfo in injectableProperties)
+            {
+                Type fieldType = propertyInfo.PropertyType;
+                object resolvedInstance = GetInstance(fieldType);
+                if (resolvedInstance == null)
+                {
+                    return;
+                }
+                
+                propertyInfo.SetValue(injectable, resolvedInstance);
             }
         }
 
@@ -150,15 +164,35 @@ namespace DandyDino.Modulate
                     continue;
                 }
 
-                var returnType = methodInfo.ReturnType;
-                var providedInstance = methodInfo.Invoke(provider, null);
+                Type returnType = methodInfo.ReturnType;
+                object providedInstance = methodInfo.Invoke(provider, null);
                 if (providedInstance != null)
                 {
                     _registry.TryAdd(returnType, providedInstance);
                     continue;
                 }
 
-                throw new Exception($"Provider {provider.GetType().Namespace} returned null for {returnType.Name}");
+                throw new Exception($"Method Provider {provider.GetType().Namespace} returned null for {returnType.Name}");
+            }
+            
+            PropertyInfo[] properties = provider.GetType().GetProperties(BINDING_FLAGS);
+
+            foreach (PropertyInfo propertyInfo in properties)
+            {
+                if (!Attribute.IsDefined(propertyInfo, typeof(ProvideAttribute)))
+                {
+                    continue;
+                }
+
+                Type returnType = propertyInfo.PropertyType;
+                object providedInstance = propertyInfo.GetValue(provider);
+                if (providedInstance != null)
+                {
+                    _registry.TryAdd(returnType, providedInstance);
+                    continue;
+                }
+
+                throw new Exception($"Property Provider {provider.GetType().Namespace} returned null for {returnType.Name}");
             }
         }
         

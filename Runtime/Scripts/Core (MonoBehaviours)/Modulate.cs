@@ -43,9 +43,9 @@ namespace DandyDino.Modulate
         /// </summary>
         /// <typeparam name="T">Concrete implementation of IService, effectively any Game Service created in your game that you have access to</typeparam>
         /// <returns>If exists, returns the Game Service of the desire type. Returns null instead.</returns>
-        public T GetGameService <T>() where T : class, IService, new()
+        public T GetOrCreateGameService <T>() where T : class, IService, new()
         {
-            T service = GameServicesFactory.Factory.GetGameService<T>();
+            T service = GameServicesFactory.Factory.GetOrCreateGameService<T>();
             return service;
         }
 

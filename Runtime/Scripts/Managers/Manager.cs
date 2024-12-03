@@ -46,7 +46,7 @@ namespace DandyDino.Modulate
 
         private void RegisterService()
         {
-            _service = Modulate.Main.GetGameService<T>();
+            _service = Modulate.Main.GetOrCreateGameService<T>();
         }
         
         public void RegisterScenes(Scene scene)

@@ -24,7 +24,7 @@ namespace DandyDino.Modulate
             return allServices;
         }
         
-        internal T GetGameService<T>() where T : class, IService, new()
+        internal T GetOrCreateGameService<T>() where T : class, IService, new()
         {
             if (_services.ContainsKey(typeof(T)))
             {
