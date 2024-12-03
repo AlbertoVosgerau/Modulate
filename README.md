@@ -48,4 +48,4 @@ https://github.com/AlbertoVosgerau/Modulate.git#versionNumber
 
 Latest version:
 
-https://github.com/AlbertoVosgerau/Modulate.git#0.2.6
+https://github.com/AlbertoVosgerau/Modulate.git#1.0.0
