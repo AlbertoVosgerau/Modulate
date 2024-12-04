@@ -17,9 +17,10 @@ namespace DandyDino.Modulate
         public string ModuleScriptsDirectory => $"{ModuleDirectory}/Scripts";
         public string MonoBehaviourDirectory => $"{ModuleScriptsDirectory}/MonoBehaviours";
 
-        public string AssemblyDefinitionAssetPath => $"{ModuleDirectory}/{GameInspector.GetGame().GameName}.Main.asmdef";
-        public AssemblyDefinition AssemblyDefinition => GameInspector.GetCurrentAssemblyDefinition(ModuleDirectory);
-        public AssemblyDefinition EditorAssemblyDefinition => GameInspector.GetCurrentAssemblyDefinition(ModuleEditorScriptsDirectory);
+        public string AssemblyDefinitionAssetPath => $"{ModuleDirectory}/{GameInspector.GetGame().GameName}.{ModuleName}.asmdef";
+        public string EditorAssemblyDefinitionAssetPath => $"{ModuleDirectory}/Editor/{GameInspector.GetGame().GameName}.{ModuleName}.Editor.asmdef";
+        public AssemblyDefinition AssemblyDefinition => AssemblyDefinition.FromPath(AssemblyDefinitionAssetPath);
+        public AssemblyDefinition EditorAssemblyDefinition => AssemblyDefinition.FromPath(EditorAssemblyDefinitionAssetPath);
         
 
         public void SetModuleName(string name)
