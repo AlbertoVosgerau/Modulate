@@ -251,7 +251,7 @@ namespace DandyDino.Modulate
             List<string> asmdefFiles = new List<string>();
             while (!string.IsNullOrEmpty(folderPath))
             {
-                string[] assets = AssetDatabase.FindAssets("t:asmdef" , new[] { folderPath });
+                string[] assets = AssetDatabase.FindAssets("t:asmdef" , new[] { $"{folderPath}/" });
                 
                 foreach (string guid in assets)
                 {
