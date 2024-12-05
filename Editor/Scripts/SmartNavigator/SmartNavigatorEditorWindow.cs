@@ -13,7 +13,7 @@ namespace DandyDino.Modulate
         
         private List<Module> _modules = new List<Module>();
         private Game _game;
-        private Color hoverColor = new Color(0.25f, 0.32f, 0.68f, 0.51f);
+        private Color hoverColor = new Color(0.25f, 0.32f, 0.68f, 0.31f);
         
         private Vector2 _modulesScroll;
 
@@ -119,12 +119,43 @@ namespace DandyDino.Modulate
                 
                     for (int i = 0; i < _modules.Count; i++)
                     {
-                        Module module = _modules[i];
-                    
-                        DDElements.Templates.LeadingIconAndButton(DDElements.Icons.Cubes(), $"{module.name}", hoverColor, () =>
+                        DDElements.Layout.Row(() =>
                         {
-                            DDElements.Assets.PingFolder(module.ModulePath);
-                            Close();
+                            Module module = _modules[i];
+                    
+                            DDElements.Templates.LeadingIconAndButton(DDElements.Icons.Cubes(), $"{module.name}", hoverColor, () =>
+                            {
+                                DDElements.Assets.PingFolder(module.ModulePath);
+                                Close();
+                            }, trailingContent: () =>
+                            {
+                                DDElements.Layout.FlexibleSpace();
+                                
+                                DDElements.Rendering.IconButton(DDElements.Icons.ColorGear("Open Manager"), () =>
+                                {
+                                    DDElements.Assets.OpenAsset<MonoScript>(module.ManagerClassPath);
+                                });
+                                
+                                DDElements.Layout.Space(5);
+                                DDElements.Rendering.IconButton(DDElements.Icons.ColorScript("Open Service"), () =>
+                                {
+                                    
+                                    DDElements.Assets.OpenAsset<MonoScript>(module.ServicesClassPath);
+                                });
+                                
+                                DDElements.Layout.Space(5);
+                                DDElements.Rendering.IconButton(DDElements.Icons.ColorEnvelope("Open Events"), () =>
+                                {
+                                    DDElements.Assets.OpenAsset<MonoScript>(module.EventsClassPath);
+                                });
+                                
+                                DDElements.Layout.Space(5);
+                                DDElements.Rendering.IconButton(DDElements.Icons.Unity("Open MonoBehaviours folder"), () =>
+                                {
+                                    DDElements.Assets.PingInsideFolder(module.MonoBehaviourDirectory);
+                                });
+                                DDElements.Layout.Space(55);
+                            });
                         });
                     }
                 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using DandyDino.Elements;
@@ -15,12 +16,20 @@ namespace DandyDino.Modulate
         public string ModuleDirectory => Path.GetDirectoryName(ModulePath);
         public string ModuleEditorScriptsDirectory => $"{ModuleDirectory}/Editor/Scripts";
         public string ModuleScriptsDirectory => $"{ModuleDirectory}/Scripts";
+        
         public string MonoBehaviourDirectory => $"{ModuleScriptsDirectory}/MonoBehaviours";
+        public string EventsDirectory => $"{ModuleScriptsDirectory}/Events";
+        public string ManagerDirectory => $"{ModuleScriptsDirectory}/Manager";
+        public string ServiceDirectory => $"{ModuleScriptsDirectory}/Service";
 
         public string AssemblyDefinitionAssetPath => $"{ModuleDirectory}/{GameInspector.GetGame().GameName}.{ModuleName}.asmdef";
         public string EditorAssemblyDefinitionAssetPath => $"{ModuleDirectory}/Editor/{GameInspector.GetGame().GameName}.{ModuleName}.Editor.asmdef";
         public AssemblyDefinition AssemblyDefinition => AssemblyDefinition.FromPath(AssemblyDefinitionAssetPath);
         public AssemblyDefinition EditorAssemblyDefinition => AssemblyDefinition.FromPath(EditorAssemblyDefinitionAssetPath);
+        
+        public string ManagerClassPath => $"{ManagerDirectory}/{ModuleName}Manager.cs";
+        public string ServicesClassPath => $"{ServiceDirectory}/{ModuleName}Service.cs";
+        public string EventsClassPath => $"{EventsDirectory}/{ModuleName}Events.cs";
         
 
         public void SetModuleName(string name)

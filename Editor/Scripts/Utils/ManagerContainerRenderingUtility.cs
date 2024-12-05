@@ -23,9 +23,6 @@ namespace DandyDino.Modulate
                         string managerName = property.managedReferenceValue.GetType().Name;
                         string moduleName = Regex.Replace(managerName, @"Manager$", "");
                         Module module = moduleName == "Main"? GameInspector.GetMainModule() : GameInspector.GetModule(moduleName);
-                        
-                        
-                        string eventsClassPath = module == null? "" : $"{module.ModuleScriptsDirectory}/Events/{moduleName}Events.cs";
                 
                         DDElements.Layout.Column(() =>
                         {
@@ -49,47 +46,21 @@ namespace DandyDino.Modulate
 
                                 DDElements.Rendering.IconButton(DDElements.Icons.CogWheel("Edit Manager class"), 16, () =>
                                 {
-                                    object managedObject = property.managedReferenceValue;
-                                    if (managedObject != null)
-                                    {
-                                        Type type = managedObject.GetType();
-                                        string assetPath = DDElements.Assets.GetScriptPathFromType(type);
-                                        if (!string.IsNullOrEmpty(assetPath))
-                                        {
-                                            AssetDatabase.OpenAsset(AssetDatabase.LoadAssetAtPath<MonoScript>(assetPath));
-                                        }
-                                        else
-                                        {
-                                            Debug.LogWarning($"Script path not found for type: {type.Name}");
-                                        }
-                                    }
+                                    AssetDatabase.OpenAsset(AssetDatabase.LoadAssetAtPath<MonoScript>(module.ManagerClassPath));
                                 });
                                 
                                 DDElements.Layout.Space(10);
                                 
                                 DDElements.Rendering.IconButton(DDElements.Icons.ScriptGray("Edit Service class"), 16, () =>
                                 {
-                                    DDElements.Assets.LoadScriptByName($"{moduleName}Service", out object managedObject);
-                                    if (managedObject != null)
-                                    {
-                                        Type type = managedObject.GetType();
-                                        string assetPath = DDElements.Assets.GetScriptPathFromType(type);
-                                        if (!string.IsNullOrEmpty(assetPath))
-                                        {
-                                            AssetDatabase.OpenAsset(AssetDatabase.LoadAssetAtPath<MonoScript>(assetPath));
-                                        }
-                                        else
-                                        {
-                                            Debug.LogWarning($"Script path not found for type: {type.Name}");
-                                        }
-                                    }
+                                    AssetDatabase.OpenAsset(AssetDatabase.LoadAssetAtPath<MonoScript>(module.ServicesClassPath));
                                 });
                                 
                                 DDElements.Layout.Space(10);
                                 
                                 DDElements.Rendering.IconButton(DDElements.Icons.Envelope("Edit Events class"), 16, () =>
                                 {
-                                    AssetDatabase.OpenAsset(AssetDatabase.LoadAssetAtPath<MonoScript>(eventsClassPath));
+                                    AssetDatabase.OpenAsset(AssetDatabase.LoadAssetAtPath<MonoScript>(module.EventsClassPath));
                                 });
                                 
                                 DDElements.Layout.Space(15);
