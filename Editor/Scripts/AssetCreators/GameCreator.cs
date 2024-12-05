@@ -26,7 +26,8 @@ namespace DandyDino.Modulate
                 AssetDatabase.Refresh();
             }
 
-            ModuleCreator.CreateModule(gameRoot, "Main", assembliesToAdd);
+            ModuleCreator.CreateModule(gameRoot, StringLibrary.MAIN_MODULE, assembliesToAdd);
+            ModuleCreator.CreateModule(gameRoot, StringLibrary.COMMONS_MODULE, assembliesToAdd);
             
             EditorUtility.SetDirty(asset);
             AssetDatabase.SaveAssetIfDirty(asset);

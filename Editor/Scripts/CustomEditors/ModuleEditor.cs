@@ -20,7 +20,7 @@ namespace DandyDino.Modulate
 
         public override void OnInspectorGUI()
         {
-            if (_target.ModuleName == "Main")
+            if (_target.ModuleName == StringLibrary.MAIN_MODULE)
             {
                 return;
             }

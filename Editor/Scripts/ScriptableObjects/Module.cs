@@ -38,7 +38,7 @@ namespace DandyDino.Modulate
             name = name.Replace(" ", "");
             
             _moduleName = name;
-            if (_moduleName.ToLower() == "main")
+            if (_moduleName.ToLower() == StringLibrary.MAIN_MODULE)
             {
                 return;
             }

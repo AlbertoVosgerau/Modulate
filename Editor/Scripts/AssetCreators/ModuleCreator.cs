@@ -30,11 +30,35 @@ namespace DandyDino.Modulate
             AssetDatabase.CreateFolder(editorFolder, "Scripts");
 
             string assemblyDefinitionName = $"{game.GameName}.{moduleName}";
-            
+
             List<string> assemblies = new List<string>();
             assemblies.Add(StringLibrary.ASSEMBLY_DEFINITION);
             assemblies.AddRange(assembliesToAdd);
-                
+            
+            if (moduleName != StringLibrary.COMMONS_MODULE)
+            {
+                string commonsModuleName = string.Empty;
+                if (moduleName == StringLibrary.MAIN_MODULE)
+                {
+                    commonsModuleName = $"{game.GameName}.{StringLibrary.COMMONS_MODULE}";
+                    
+                }
+                else
+                {
+                    Module commonsModule = GameInspector.GetCommonsModule();
+                    if (commonsModule != null)
+                    {
+                        AssemblyDefinition commonsAsmdef = commonsModule.AssemblyDefinition;
+                        commonsModuleName = commonsAsmdef.name;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(commonsModuleName))
+                {
+                    assemblies.Add(commonsModuleName);
+                }
+            }
+
             AssetCreationUtils.CreateAssemblyDefinition(moduleRoot, assemblyDefinitionName, assemblyDefinitionName, references: assemblies.ToArray());
             AssetCreationUtils.CreateAssemblyDefinition(editorFolder, $"{assemblyDefinitionName}.Editor", assemblyDefinitionName, references: new []{StringLibrary.ASSEMBLY_DEFINITION_EDITOR, assemblyDefinitionName, StringLibrary.ELEMENTS_ASSEMBLY_DEFINITION}, includePlatforms: new []{"Editor"});
                  
@@ -79,13 +103,14 @@ namespace DandyDino.Modulate
                 name = moduleName
             }.GenerateClass(TemplateType.Events, eventsFolder, $"{moduleName}Events", false);
 
-            if (moduleName != "Main")
+            if (moduleName != StringLibrary.MAIN_MODULE)
             {
                 Module mainModule = GameInspector.GetMainModule();
                 AssemblyDefinition mainAsmdef = mainModule.AssemblyDefinition;
                 mainAsmdef.AddDependency(assemblyDefinitionName);
                 mainAsmdef.SaveToPath( mainModule.AssemblyDefinitionAssetPath);
             }
+            
             
             AssetDatabase.Refresh();
             return moduleRoot;

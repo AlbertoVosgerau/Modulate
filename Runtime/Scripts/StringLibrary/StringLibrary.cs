@@ -19,5 +19,8 @@ namespace DandyDino.Modulate
 
         public const string CREATE_GAME = "Assets/Create/Dandy Dino/Modulate!/Create New Game";
         public const string CREATE_MODULE = "Assets/Create/Dandy Dino/Modulate!/Create New Module";
+
+        public const string MAIN_MODULE = "Main";
+        public const string COMMONS_MODULE = "Common";
     }
 }

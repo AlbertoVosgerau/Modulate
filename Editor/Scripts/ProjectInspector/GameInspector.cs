@@ -42,7 +42,13 @@ namespace DandyDino.Modulate
         
         public static Module GetMainModule()
         {
-            Module mainModule = GetModules(true)?.Where(x => x.ModuleName == "Main").FirstOrDefault();
+            Module mainModule = GetModules(true)?.Where(x => x.ModuleName == StringLibrary.MAIN_MODULE).FirstOrDefault();
+            return mainModule;
+        }
+        
+        public static Module GetCommonsModule()
+        {
+            Module mainModule = GetModules(true)?.Where(x => x.ModuleName == StringLibrary.COMMONS_MODULE).FirstOrDefault();
             return mainModule;
         }
         
@@ -66,7 +72,7 @@ namespace DandyDino.Modulate
                     continue;
                 }
 
-                if (!includeMain && (asset.ModuleName == "MainModule" || asset.ModuleName == "Main"))
+                if (!includeMain && (asset.ModuleName == "MainModule" || asset.ModuleName == StringLibrary.MAIN_MODULE))
                 {
                     continue;
                 }
@@ -142,7 +148,7 @@ namespace DandyDino.Modulate
             
             projectMap.game = GetExistingGameRoot();
             projectMap.modules = GetModules();
-            projectMap.mainModule = projectMap.modules.Where(x => x.ModuleName == "Main").FirstOrDefault();
+            projectMap.mainModule = projectMap.modules.Where(x => x.ModuleName == StringLibrary.MAIN_MODULE).FirstOrDefault();
 
             return projectMap;
         }
