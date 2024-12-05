@@ -134,6 +134,7 @@ namespace DandyDino.Modulate
                                 DDElements.Rendering.IconButton(DDElements.Icons.ColorGear("Open Manager"), () =>
                                 {
                                     DDElements.Assets.OpenAsset<MonoScript>(module.ManagerClassPath);
+                                    Close();
                                 });
                                 
                                 DDElements.Layout.Space(5);
@@ -141,18 +142,21 @@ namespace DandyDino.Modulate
                                 {
                                     
                                     DDElements.Assets.OpenAsset<MonoScript>(module.ServicesClassPath);
+                                    Close();
                                 });
                                 
                                 DDElements.Layout.Space(5);
                                 DDElements.Rendering.IconButton(DDElements.Icons.ColorEnvelope("Open Events"), () =>
                                 {
                                     DDElements.Assets.OpenAsset<MonoScript>(module.EventsClassPath);
+                                    Close();
                                 });
                                 
                                 DDElements.Layout.Space(5);
                                 DDElements.Rendering.IconButton(DDElements.Icons.Unity("Open MonoBehaviours folder"), () =>
                                 {
                                     DDElements.Assets.PingInsideFolder(module.MonoBehaviourDirectory);
+                                    Close();
                                 });
                                 DDElements.Layout.Space(55);
                             });
