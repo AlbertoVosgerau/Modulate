@@ -46,17 +46,10 @@ namespace DandyDino.Modulate
                 else
                 {
                     Module commonsModule = GameInspector.GetCommonsModule();
-                    if (commonsModule != null)
-                    {
-                        AssemblyDefinition commonsAsmdef = commonsModule.AssemblyDefinition;
-                        commonsModuleName = commonsAsmdef.name;
-                    }
+                    AssemblyDefinition commonsAsmdef = commonsModule.AssemblyDefinition;
+                    commonsModuleName = commonsAsmdef.name;
                 }
-
-                if (string.IsNullOrEmpty(commonsModuleName))
-                {
-                    assemblies.Add(commonsModuleName);
-                }
+                assemblies.Add(commonsModuleName);
             }
 
             AssetCreationUtils.CreateAssemblyDefinition(moduleRoot, assemblyDefinitionName, assemblyDefinitionName, references: assemblies.ToArray());
