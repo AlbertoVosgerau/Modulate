@@ -1,7 +1,9 @@
 namespace DandyDino.Modulate
 {
-    public static class StringLibrary
+    public static partial class StringLibrary
     {
+        public const string MENU_ITEM_ICONS_DATABASE = "Dandy Dino/DDElements/Create Icons Library";
+        
         public const string ASSEMBLY_DEFINITION = "DandyDino.Modulate";
         public const string ASSEMBLY_DEFINITION_EDITOR = "DandyDino.Modulate.Editor";
         public const string ELEMENTS_ASSEMBLY_DEFINITION = "DandyDino.Elements";
