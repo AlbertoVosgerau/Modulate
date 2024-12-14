@@ -37,8 +37,10 @@ namespace DandyDino.Modulate
 
         public static void Raise(T @event)
         {
-            foreach (var binding in bindings)
+            var bindingsList = bindings.ToList();
+            for (int i = 0; i < bindingsList.Count; i++)
             {
+                IEventBinding<T> binding = bindingsList[i];
                 binding.OnEvent?.Invoke(@event);
                 binding.OnEventNoArgs?.Invoke();
             }
