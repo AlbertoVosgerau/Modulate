@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using DandyDino.Modulate;
+using DandyDino.Elements;
 using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace DandyDino.Modulate
 {
