@@ -197,7 +197,7 @@ namespace DandyDino.Modulate
         
         private object[] GetValidObjects()
         {
-            List<object> objects = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.InstanceID).Cast<object>().ToList();
+            List<object> objects = FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.InstanceID).Cast<object>().ToList();
             ManagerContainer managerContainer = Modulate.Main.ManagerContainer;
             if (managerContainer != null)
             {
