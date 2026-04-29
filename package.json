@@ -9,7 +9,9 @@
   "licenseUrl": null,
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "3.2.1",
-    "com.dandydino.elements": "0.1.7"
+    "com.dandydino.elements": "0.1.7",
+    "com.gustavopsantos.reflex": "14.3.0",
+    "com.cysharp.unitask": "2.5.10"
   },
   "keywords": [
     "architecture"
