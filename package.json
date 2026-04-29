@@ -9,7 +9,8 @@
   "licenseUrl": null,
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "3.2.1",
-    "com.dandydino.elements": "0.1.7"
+    "com.dandydino.elements": "0.1.7",
+    "com.gustavopsantos.reflex": "https://github.com/gustavopsantos/reflex.git?path=/Assets/Reflex/#14.3.0"
   },
   "keywords": [
     "architecture"
