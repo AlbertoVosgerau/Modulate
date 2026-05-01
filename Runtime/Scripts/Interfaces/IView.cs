@@ -1,6 +1,6 @@
 namespace DandyDino.Modulate
 {
-    public interface IDependencyProvider
+    public interface IView
     {
     }
 }

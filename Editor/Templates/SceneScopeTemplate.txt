@@ -1,0 +1,14 @@
+using Reflex.Core;
+using UnityEngine;
+
+namespace #Namespace#
+{
+    [RequireComponent(typeof(ContainerScope))]
+    public class #Name# : MonoBehaviour, IInstaller
+    {
+        public void InstallBindings(ContainerBuilder containerBuilder)
+        {
+        
+        }
+    }
+}

@@ -6,14 +6,13 @@ namespace DandyDino.Modulate
         Enum,
         Events,
         Interface,
-        ManagerPropertyDrawer,
         Manager,
+        View,
         MonoBehaviour,
         PropertyDrawer,
-        ServicePropertyDrawer,
-        Service,
         EmptyClass,
         ScriptableObject,
-        EditorWindow
+        EditorWindow,
+        GameInstanceInstaller
     }
 }

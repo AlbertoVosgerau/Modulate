@@ -37,51 +37,7 @@ namespace DandyDino.Modulate
                 names.Add(Path.GetFileNameWithoutExtension(templates[i].Replace("Template", "")));
             }
 
-            string template = "";
-
-            switch (templateType)
-            {
-                case TemplateType.CustomInspector:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.CustomInspector.ToString()))];
-                    break;
-                case TemplateType.Enum:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.Enum.ToString()))];
-                    break;
-                case TemplateType.Events:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.Events.ToString()))];
-                    break;
-                case TemplateType.Interface:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.Interface.ToString()))];
-                    break;
-                case TemplateType.ManagerPropertyDrawer:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.ManagerPropertyDrawer.ToString()))];
-                    break;
-                case TemplateType.Manager:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.Manager.ToString()))];
-                    break;
-                case TemplateType.MonoBehaviour:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.MonoBehaviour.ToString()))];
-                    break;
-                case TemplateType.PropertyDrawer:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.PropertyDrawer.ToString()))];
-                    break;
-                case TemplateType.ServicePropertyDrawer:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.ServicePropertyDrawer.ToString()))];
-                    break;
-                case TemplateType.Service:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.Service.ToString()))];
-                    break;
-                case TemplateType.EmptyClass:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.EmptyClass.ToString()))];
-                    break;
-                case TemplateType.ScriptableObject:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.ScriptableObject.ToString()))];
-                    break;
-                case TemplateType.EditorWindow:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.EditorWindow.ToString()))];
-                    break;
-            }
-            
+            string template = templates[names.IndexOf(templateType.ToString())];
             InternalGenerateClass(File.ReadAllText(template), directory, className, newNamespace, pingAsset);
         }
 

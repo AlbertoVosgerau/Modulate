@@ -1,0 +1,20 @@
+using System;
+using UnityEngine;
+using DandyDino.Modulate;
+
+namespace #Namespace#
+{
+    [DisallowMultipleComponent]
+    public class #Name#View : ModulateBehaviour, IView
+    {        
+        private void OnEnable()
+        {
+            EventBus<RegisterViewEvt>.Raise(new RegisterViewEvt(){view =  this});
+        }
+
+        private void OnDisable()
+        {
+            EventBus<UnRegisterViewEvt>.Raise(new UnRegisterViewEvt(){view =  this});
+        }
+    }
+}
