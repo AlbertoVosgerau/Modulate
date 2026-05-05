@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -23,7 +24,9 @@ namespace DandyDino.Modulate
             return !string.IsNullOrEmpty(folderName);
         }
     
-        public static void CreateAssemblyDefinition(string folderPath, string assemblyName, string rootNamespace, string[] references = null, string[] includePlatforms = null, string[] excludePlatforms = null,  string[] defineConstraints = null, bool allowUnsafeCode = false)
+        public static void CreateAssemblyDefinition(string folderPath, string assemblyName, string rootNamespace, string[] references = null,
+            string[] includePlatforms = null, string[] excludePlatforms = null,  string[] defineConstraints = null, string[] optionalUnityReferences = null, string[] precompiledReferences = null,
+            bool allowUnsafeCode = false, bool overrideReferences = false, bool autoReferenced = false)
         {
             AssemblyDefinition asmDef = new AssemblyDefinition
             {
@@ -33,7 +36,11 @@ namespace DandyDino.Modulate
                 includePlatforms = includePlatforms ?? new string[] { },
                 excludePlatforms = excludePlatforms ?? new string[] { },
                 defineConstraints = defineConstraints ?? new string[] { },
-                allowUnsafeCode = allowUnsafeCode
+                precompiledReferences = precompiledReferences ?? new string[] { },
+                optionalUnityReferences = optionalUnityReferences ?? new string[] { },
+                allowUnsafeCode = allowUnsafeCode,
+                overrideReferences = overrideReferences,
+                autoReferenced = autoReferenced
             };
             
             string jsonString = JsonConvert.SerializeObject(asmDef, Formatting.Indented);
@@ -73,6 +80,34 @@ namespace DandyDino.Modulate
             AssetDatabase.CreateAsset(game, path);
             AssetDatabase.SaveAssets();
             return game;
+        }
+
+        public static void CopyResources(string path)
+        {
+            string resourcesPath = $"{path}/Resources";
+
+            if (!AssetDatabase.IsValidFolder(resourcesPath))
+            {
+                string guid = AssetDatabase.CreateFolder(path, "Resources");
+                resourcesPath = AssetDatabase.GUIDToAssetPath(guid);
+            }
+
+            List<string> pathsToCopy = ModulateRoot.GetCoreRoot().GetAllCopyableFiles();
+
+            foreach (string sourcePath in pathsToCopy)
+            {
+                if (AssetDatabase.IsValidFolder(sourcePath))
+                {
+                    continue;
+                }
+
+                string fileName = System.IO.Path.GetFileName(sourcePath);
+                string destinationPath = $"{resourcesPath}/{fileName}";
+
+                AssetDatabase.CopyAsset(sourcePath, destinationPath);
+            }
+
+            AssetDatabase.Refresh();
         }
     }
 }

@@ -21,6 +21,7 @@ namespace DandyDino.Modulate
         public string EventsDirectory => $"{ModuleScriptsDirectory}/Events";
         public string ManagerDirectory => $"{ModuleScriptsDirectory}/Manager";
         public string ServiceDirectory => $"{ModuleScriptsDirectory}/Service";
+        public string ViewsDirectory => $"{ModuleScriptsDirectory}/Views";
 
         public string AssemblyDefinitionAssetPath => $"{ModuleDirectory}/{GameInspector.GetGame().GameName}.{ModuleName}.asmdef";
         public string EditorAssemblyDefinitionAssetPath => $"{ModuleDirectory}/Editor/{GameInspector.GetGame().GameName}.{ModuleName}.Editor.asmdef";
@@ -28,7 +29,7 @@ namespace DandyDino.Modulate
         public AssemblyDefinition EditorAssemblyDefinition => AssemblyDefinition.FromPath(EditorAssemblyDefinitionAssetPath);
         
         public string ManagerClassPath => $"{ManagerDirectory}/{ModuleName}Manager.cs";
-        public string ServicesClassPath => $"{ServiceDirectory}/{ModuleName}Service.cs";
+        public string ViewClassPath => $"{ViewsDirectory}/{ModuleName}View.cs";
         public string EventsClassPath => $"{EventsDirectory}/{ModuleName}Events.cs";
         
 
@@ -66,6 +67,11 @@ namespace DandyDino.Modulate
             }
 
             return $"{game.GameName}.{ModuleName}";
+        }
+
+        public string GetCustomViewClass(string className)
+        {
+            return $"{ViewsDirectory}/{className}.cs";
         }
 
         public List<(string path, AssemblyDefinition asmdef)> GetAssemblyDefinitions()

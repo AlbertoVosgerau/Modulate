@@ -1,7 +1,15 @@
+using System;
+
 namespace DandyDino.Modulate
 {
-    public interface IManager<T> where T : IView
+    public interface IManager: IDisposable
     {
-        
+        Type ViewType { get; }
+        bool IsSingleton { get; }
+
+        void Start();
+        void Update();
+        void LateUpdate();
+        void FixedUpdate();
     }
 }

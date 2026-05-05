@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace DandyDino.Modulate
 {
-    [CustomEditor(typeof(ModulateBehaviour), true)]
+    [CustomEditor(typeof(BaseView), true)]
     public class ModulateBehaviourEditor : Editor
     {
-        private ModulateBehaviour _target;
+        private BaseView _target;
 
         private void OnEnable()
         {
-            _target = (ModulateBehaviour)target;
+            _target = (BaseView)target;
             ModulateViewsContainer viewsContainer = _target.gameObject.GetComponent<ModulateViewsContainer>();
 
             if (viewsContainer == null)

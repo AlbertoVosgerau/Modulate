@@ -25,8 +25,11 @@ namespace DandyDino.Modulate
         
         private const string ADDITIONAL_USING = "#AdditionalUsing#";
         public string additionalUsing = "";
+        
+        private const string FLAG_VALUE = "#flag#";
+        public string flag_value = "";
 
-        public void GenerateClass(TemplateType templateType, string directory, string className, bool pingAsset)
+        public void GenerateClass(TemplateType templateType, string directory, string className, bool pingAsset, bool flagValue = true)
         {
             ModulateRoot modulateRoot = ModulateRoot.GetCoreRoot();
             List<string> templates = modulateRoot.GetAllTemplates();
@@ -38,10 +41,10 @@ namespace DandyDino.Modulate
             }
 
             string template = templates[names.IndexOf(templateType.ToString())];
-            InternalGenerateClass(File.ReadAllText(template), directory, className, newNamespace, pingAsset);
+            InternalGenerateClass(File.ReadAllText(template), directory, className, newNamespace, pingAsset, flagValue);
         }
 
-        private void InternalGenerateClass(string template, string directory, string className, string classNamespace, bool pingAsset)
+        private void InternalGenerateClass(string template, string directory, string className, string classNamespace, bool pingAsset, bool flagValue = true)
         {
             if (string.IsNullOrWhiteSpace(classNamespace))
             {
@@ -60,6 +63,7 @@ namespace DandyDino.Modulate
             template = template.Replace(MENU_NAME, menuName);
             template = template.Replace(NAME, name);
             template = template.Replace(ADDITIONAL_USING, additionalUsing);
+            template = template.Replace(FLAG_VALUE, flagValue ? "true" : "false");
             
             string[] existingFiles = AssetDatabase.FindAssets("t:Script" , new[] { directory });
             List<string> sameName = new List<string>();

@@ -3,7 +3,9 @@
     "rootNamespace": "DandyDino.Modulate",
     "references": [
         "GUID:e52704ae87322bb49b0283515920d86b",
-        "GUID:eb0e487fa8198c74c9f0afd73ae0c418"
+        "GUID:eb0e487fa8198c74c9f0afd73ae0c418",
+        "GUID:1530a967b84cfb44dbdd5e8a1989764f",
+        "GUID:d2a523d8a5354c845b1c0c21df106f6a"
     ],
     "includePlatforms": [
         "Editor"

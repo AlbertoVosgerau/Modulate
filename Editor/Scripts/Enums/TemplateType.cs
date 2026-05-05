@@ -9,10 +9,11 @@ namespace DandyDino.Modulate
         Manager,
         View,
         MonoBehaviour,
-        PropertyDrawer,
+        SceneScope,
         EmptyClass,
         ScriptableObject,
         EditorWindow,
-        GameInstanceInstaller
+        EditorTest,
+        RuntimeTest
     }
 }

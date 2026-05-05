@@ -12,6 +12,7 @@ namespace DandyDino.Modulate
         private static string _currentPath;
         private static bool _gameExists;
         private Color _hoverColor = new Color(0.4f, 0.27f, 0.68f, 0.16f);
+        private Vector2 _scroll;
         
         [Shortcut(StringLibrary.CODE_FACTORY_WINDOW, KeyCode.N, ShortcutModifiers.Control | ShortcutModifiers.Alt | ShortcutModifiers.Shift)]
         public static void Init()
@@ -36,7 +37,7 @@ namespace DandyDino.Modulate
                 multiplier++;
             }
             
-            Vector2 windowSize = !GameInspector.GameRootExists()? new Vector2(250, height) : new Vector2(250, (height * multiplier) + 40);
+            Vector2 windowSize = !GameInspector.GameRootExists()? new Vector2(250, height) : new Vector2(250, (height * multiplier) + 70);
             _window.position = DDElements.EditorUtils.GetPopupWindowPosition(windowSize);
             _window.ShowPopup();
         }
@@ -51,90 +52,108 @@ namespace DandyDino.Modulate
             DDElements.Layout.DrawBackground(new Rect(new Vector2(0,0), new Vector2(position.width, position.height)), DDElements.Colors.MidDarkGray);
             DDElements.EditorUtils.PopupWindowCloseState(this);
             
-            DDElements.Layout.Column(() =>
+            DDElements.Layout.ScrollView(ref _scroll, () =>
             {
-                DDElements.Layout.Space(6);
-                if (!_gameExists)
+                DDElements.Layout.Column(() =>
                 {
-                    DDElements.Templates.LeadingIconAndButton(DDElements.Icons.CSharp(), "Create Game", _hoverColor, () =>
+                    DDElements.Layout.Space(6);
+                    if (!_gameExists)
                     {
-                        Close();
-                        CreateGameWindow window = GetWindow<CreateGameWindow>();
-                        window.Init(_currentPath);
-                    });
-                }
-                else
-                {
-                    if (!_currentPath.Contains("Editor"))
-                    {
-                        DDElements.Templates.LeadingIconAndButton(DDElements.Icons.Monkey(), "Create MonoBehaviour", _hoverColor, () =>
+                        DDElements.Templates.LeadingIconAndButton(DDElements.Icons.CSharp(), "Create Game", _hoverColor, () =>
                         {
                             Close();
-                            CodeCreatorEditorWindow.OpenPopup(DDElements.Icons.Monkey(), TemplateType.MonoBehaviour, _currentPath, className: "NewMonoBehaviour");
+                            CreateGameWindow window = GetWindow<CreateGameWindow>();
+                            window.Init(_currentPath);
                         });
                     }
                     else
                     {
-                        DDElements.Templates.LeadingIconAndButton(DDElements.Icons.Window(), "Create Editor Window",  _hoverColor,() =>
+                        DDElements.Templates.LeadingIconAndButton(DDElements.Icons.Cubes(), "Create Module",  _hoverColor,() =>
                         {
                             Close();
-                            CodeCreatorEditorWindow.OpenPopup(DDElements.Icons.Window(), TemplateType.EditorWindow, _currentPath, className:"NewEditorWindow");
-                        });
-                    }
-
-                    if (DDElements.Assets.IsSelectedMonoBehaviour() || DDElements.Assets.IsSelectedScriptableObject())
-                    {
-                        DDElements.Templates.LeadingIconAndButton(DDElements.Icons.Unity(), "Create Custom Inspector", _hoverColor, () =>
+                            string modulesPath = GameInspector.GetModulesPath();
+                            DDElements.Assets.PingInsideFolder(modulesPath);
+                            CreateModuleWindow window = GetWindow<CreateModuleWindow>();
+                            window.Init(modulesPath);
+                        }); 
+                        
+                        if (!_currentPath.Contains("Editor"))
                         {
-                            Close();
-                            Type type = DDElements.Assets.SelectedObject().GetType();
-                            Type classType = null;
-                            if (type == typeof(MonoScript))
+                            DDElements.Templates.LeadingIconAndButton(DDElements.Icons.Monkey(), "Create MonoBehaviour", _hoverColor, () =>
                             {
-                                classType = ((MonoScript)DDElements.Assets.SelectedObject()).GetClass();
-                            }
+                                Close();
+                                CodeCreatorEditorWindow.OpenPopup(DDElements.Icons.Monkey(), TemplateType.MonoBehaviour, _currentPath, className: "NewMonoBehaviour");
+                            });
+                        }
+                        else
+                        {
+                            DDElements.Templates.LeadingIconAndButton(DDElements.Icons.Window(), "Create Editor Window",  _hoverColor,() =>
+                            {
+                                Close();
+                                CodeCreatorEditorWindow.OpenPopup(DDElements.Icons.Window(), TemplateType.EditorWindow, _currentPath, className:"NewEditorWindow");
+                            });
+                        }
+
+                        if (DDElements.Assets.IsSelectedMonoBehaviour() || DDElements.Assets.IsSelectedScriptableObject())
+                        {
+                            DDElements.Templates.LeadingIconAndButton(DDElements.Icons.Unity(), "Create Custom Inspector", _hoverColor, () =>
+                            {
+                                Close();
+                                Type type = DDElements.Assets.SelectedObject().GetType();
+                                Type classType = null;
+                                if (type == typeof(MonoScript))
+                                {
+                                    classType = ((MonoScript)DDElements.Assets.SelectedObject()).GetClass();
+                                }
+                                Module module = GameInspector.GetModuleInParentDirectories(_currentPath);
+                                string editorScripts = GameInspector.GetModuleEditorScriptsPath(module);
+                                
+                                DDElements.Assets.PingInsideFolder(editorScripts);
+                                CodeCreatorEditorWindow.OpenPopup(DDElements.Icons.Unity(), TemplateType.CustomInspector, editorScripts, className: $"{DDElements.Assets.SelectedObject().name}Editor", type: classType);
+                            });
+                        }
+                        
+                        
+
+                        DDElements.Templates.LeadingIconAndButton(DDElements.Icons.CSharp(), "Create Empty Class", _hoverColor, () =>
+                        {
+                            Close();
+                            CodeCreatorEditorWindow.OpenPopup(DDElements.Icons.CSharp(), TemplateType.EmptyClass, _currentPath, className:"NewEmptyClass");
+                        });
+                        
+                        DDElements.Templates.LeadingIconAndButton(DDElements.Icons.Layers(), "Create Interface",  _hoverColor,() =>
+                        {
+                            Close();
+                            CodeCreatorEditorWindow.OpenPopup(DDElements.Icons.Layers(), TemplateType.Interface, _currentPath, className: "INewInterface");
+                        });
+                        
+                        DDElements.Templates.LeadingIconAndButton(DDElements.Icons.View(), "Create View",  _hoverColor,() =>
+                        {
+                            Close();
                             Module module = GameInspector.GetModuleInParentDirectories(_currentPath);
-                            string editorScripts = GameInspector.GetModuleEditorScriptsPath(module);
-                            
-                            DDElements.Assets.PingInsideFolder(editorScripts);
-                            CodeCreatorEditorWindow.OpenPopup(DDElements.Icons.Unity(), TemplateType.CustomInspector, editorScripts, className: $"{DDElements.Assets.SelectedObject().name}Editor", type: classType);
+                            CodeCreatorEditorWindow.OpenPopup(DDElements.Icons.View(), TemplateType.View, _currentPath, className: $"{module.ModuleName}View");
+                        });
+                        
+                        DDElements.Templates.LeadingIconAndButton(DDElements.Icons.DependencyInjection(), "Create Scene Scope", _hoverColor, () =>
+                        {
+                            Close();
+                            CodeCreatorEditorWindow.OpenPopup(DDElements.Icons.DependencyInjection(), TemplateType.SceneScope, _currentPath, className:"SceneScope");
+                        });
+                        
+                        DDElements.Templates.LeadingIconAndButton(DDElements.Icons.Enumerate(), "Create Enum", _hoverColor, () =>
+                        {
+                            Close();
+                            CodeCreatorEditorWindow.OpenPopup(DDElements.Icons.Enumerate(), TemplateType.Enum, _currentPath, className:"NewEnumType");
+                        });
+                        
+                        DDElements.Templates.LeadingIconAndButton(DDElements.Icons.Comment(), "Create ScriptableObject",  _hoverColor,() =>
+                        {
+                            Close();
+                            CodeCreatorEditorWindow.OpenPopup(DDElements.Icons.Comment(), TemplateType.ScriptableObject, _currentPath, className: "NewTypeOfObject");
                         });
                     }
-
-                    DDElements.Templates.LeadingIconAndButton(DDElements.Icons.CSharp(), "Create Empty Class", _hoverColor, () =>
-                    {
-                        Close();
-                        CodeCreatorEditorWindow.OpenPopup(DDElements.Icons.CSharp(), TemplateType.EmptyClass, _currentPath, className:"NewEmptyClass");
-                    });
-                    
-                    DDElements.Templates.LeadingIconAndButton(DDElements.Icons.Layers(), "Create Interface",  _hoverColor,() =>
-                    {
-                        Close();
-                        CodeCreatorEditorWindow.OpenPopup(DDElements.Icons.Layers(), TemplateType.Interface, _currentPath, className: "INewInterface");
-                    });
-                    
-                    DDElements.Templates.LeadingIconAndButton(DDElements.Icons.Enumerate(), "Create Enum", _hoverColor, () =>
-                    {
-                        Close();
-                        CodeCreatorEditorWindow.OpenPopup(DDElements.Icons.Enumerate(), TemplateType.Enum, _currentPath, className:"NewEnumType");
-                    });
-                    
-                    DDElements.Templates.LeadingIconAndButton(DDElements.Icons.Comment(), "Create ScriptableObject",  _hoverColor,() =>
-                    {
-                        Close();
-                        CodeCreatorEditorWindow.OpenPopup(DDElements.Icons.Comment(), TemplateType.ScriptableObject, _currentPath, className: "NewTypeOfObject");
-                    });
-
-                    DDElements.Templates.LeadingIconAndButton(DDElements.Icons.Cubes(), "Create Module",  _hoverColor,() =>
-                    {
-                        Close();
-                        string modulesPath = GameInspector.GetModulesPath();
-                        DDElements.Assets.PingInsideFolder(modulesPath);
-                        CreateModuleWindow window = GetWindow<CreateModuleWindow>();
-                        window.Init(modulesPath);
-                    }); 
-                }
-                DDElements.Layout.FlexibleSpace();
+                    DDElements.Layout.FlexibleSpace();
+                });
             });
             Repaint();
         }

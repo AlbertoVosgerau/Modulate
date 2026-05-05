@@ -28,6 +28,13 @@ namespace DandyDino.Modulate
 
             ModuleCreator.CreateModule(gameRoot, StringLibrary.MAIN_MODULE, assembliesToAdd, true);
             ModuleCreator.CreateModule(gameRoot, StringLibrary.COMMONS_MODULE, assembliesToAdd);
+
+            AssetCreationUtils.CopyResources($"{gameRoot}/{StringLibrary.MAIN_MODULE}");
+            
+            string scenesFolderGuid = AssetDatabase.CreateFolder($"{gameRoot}/{StringLibrary.MAIN_MODULE}", "Scenes");
+            string scenesFolderPath = AssetDatabase.GUIDToAssetPath(scenesFolderGuid);
+
+            ModuleCreator.CreateScene(scenesFolderPath, "MainScene");
             
             EditorUtility.SetDirty(asset);
             AssetDatabase.SaveAssetIfDirty(asset);

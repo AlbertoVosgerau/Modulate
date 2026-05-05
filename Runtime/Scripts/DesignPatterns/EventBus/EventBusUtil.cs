@@ -76,6 +76,11 @@ namespace DandyDino.Modulate
         /// </summary>
         public static void ClearAllBuses()
         {
+            if (EventBusTypes == null)
+            {
+                return;
+            }
+            
             for (int i = 0; i < EventBusTypes.Count; i++)
             {
                 var busType = EventBusTypes[i];

@@ -1,20 +1,20 @@
-using System;
 using UnityEngine;
 using DandyDino.Modulate;
+
+using UnityEngine.Events;
 
 namespace #Namespace#
 {
     [DisallowMultipleComponent]
-    public class #Name#View : ModulateBehaviour, IView
-    {        
-        private void OnEnable()
-        {
-            EventBus<RegisterViewEvt>.Raise(new RegisterViewEvt(){view =  this});
-        }
+    public class #Name#View : BaseView
+    {
+        public bool testBool;
+        public string testString;
+        [Range(0, 100)]public float testSlider;
+        public ScriptableObject testObject;
+        [Space(10)] [TextArea] public string testTextArea;
 
-        private void OnDisable()
-        {
-            EventBus<UnRegisterViewEvt>.Raise(new UnRegisterViewEvt(){view =  this});
-        }
+        [Space(10)] public UnityEvent testUnityEvent1;
+        [Space(10)] public UnityEvent testUnityEvent2;
     }
 }

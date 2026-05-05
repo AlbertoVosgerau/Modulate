@@ -1,18 +1,11 @@
-using System;
+using UnityEngine;
 using DandyDino.Modulate;
 
 namespace #Namespace#
 {
-    [Serializable]
-    public class #Name#Manager : IManager<#Name#View>
+     // If Singleton, this manager will accept a single view registration. If false, any number of views can register
+    [Manager(isSingleton:#flag#)]
+    public class #Name#Manager : BaseManager<#Name#View>
     {
-        public #Name#View => _view; 
-        private #Name#View _view;
-        
-        private #Name#Manager()
-        {
-            EventBus<RegisterViewEvt>.OnEvent += (evt) => _view = (#Name#View)evt.view;
-            EventBus<UnRegisterViewEvt>.OnEvent += (evt) => _view = null;
-        }
     }
 }

@@ -14,6 +14,9 @@ namespace DandyDino.Modulate
         public int imageWidthOffset = 0;
         public float multiplier = 0.2f;
 
+        private FeatureToggleAsset _featureToggleAsset;
+        private Editor _featureToggleAssetEditor;
+
         private void OnEnable()
         {
             if (target == null)
@@ -23,7 +26,25 @@ namespace DandyDino.Modulate
             _target = (Game)target;
             _companyName = _target.CompanyName;
             _gameName = _target.GameName;
+            
+            FeatureToggleAsset[] all = Resources.LoadAll<FeatureToggleAsset>("");
+            _featureToggleAsset = all.Length > 0 ? all[0] : null;
+
+            if (_featureToggleAsset != null)
+            {
+                _featureToggleAssetEditor = Editor.CreateEditor(_featureToggleAsset);
+            }
         }
+        
+        private void OnDisable()
+        {
+            if (_featureToggleAssetEditor != null)
+            {
+                DestroyImmediate(_featureToggleAssetEditor);
+                _featureToggleAssetEditor = null;
+            }
+        }
+
 
         public override void OnInspectorGUI()
         {
@@ -39,7 +60,19 @@ namespace DandyDino.Modulate
                 CompanyNameSection();
                 DDElements.Layout.Space(5);
                 GameNameSection();
+
+                DrawFeatureToggle();
             });
+        }
+
+        private void DrawFeatureToggle()
+        {
+            DDElements.Layout.Space(15);
+
+            if (_featureToggleAssetEditor != null)
+            {
+                _featureToggleAssetEditor.OnInspectorGUI();
+            }
         }
 
         private void GameNameSection()
