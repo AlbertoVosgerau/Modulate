@@ -1,28 +1,24 @@
 {
   "name": "com.dandydino.modulate",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "displayName": "Modulate!",
   "description": "This package is my personal architecture project for simple projects.\nIt avoids MonoBehaviour for any logic whatsoever and stores a list of global services in an asset in Resources, while relies on an EditorWindow for management, so NO GAMEOBJECT required for core architecture until runtime.\n\nThis is an experimental project and is likely to undergo many changes in the future. ",
-  "unity": "6000.4.4f1",
-  "documentationUrl": null,
-  "changelogUrl": null,
-  "licenseUrl": null,
+  "unity": "6000.0",
+  "unityRelease": "0f1",
+  "documentationUrl": "https://github.com/AlbertoVosgerau/Modulate",
+  "changelogUrl": "https://github.com/AlbertoVosgerau/Modulate/blob/main/CHANGELOG.md",
+  "license": "WTFPL",
+  "licenseUrl": "https://github.com/AlbertoVosgerau/Modulate/blob/main/LICENSE.md",
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "3.2.1",
-    "com.dandydino.elements": "0.1.7",
+    "com.dandydino.elements": "0.2.0",
     "com.gustavopsantos.reflex": "14.3.0",
     "com.cysharp.unitask": "2.5.10"
   },
-  "keywords": [
-    "architecture"
-  ],
+  "keywords": ["unity", "modules", "architecture"],
   "author": {
     "name": "Alberto Vosgerau Neto",
     "email": "rex3dbr@gmail.com",
     "url": "https://albertovosgerau.myportfolio.com/"
-  },
-  "repository": {
-    "type": null,
-    "url": null
   }
 }
