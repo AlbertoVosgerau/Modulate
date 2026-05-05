@@ -25,8 +25,11 @@ namespace DandyDino.Modulate
         
         private const string ADDITIONAL_USING = "#AdditionalUsing#";
         public string additionalUsing = "";
+        
+        private const string FLAG_VALUE = "#flag#";
+        public string flag_value = "";
 
-        public void GenerateClass(TemplateType templateType, string directory, string className, bool pingAsset)
+        public void GenerateClass(TemplateType templateType, string directory, string className, bool pingAsset, bool flagValue = true)
         {
             ModulateRoot modulateRoot = ModulateRoot.GetCoreRoot();
             List<string> templates = modulateRoot.GetAllTemplates();
@@ -37,55 +40,11 @@ namespace DandyDino.Modulate
                 names.Add(Path.GetFileNameWithoutExtension(templates[i].Replace("Template", "")));
             }
 
-            string template = "";
-
-            switch (templateType)
-            {
-                case TemplateType.CustomInspector:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.CustomInspector.ToString()))];
-                    break;
-                case TemplateType.Enum:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.Enum.ToString()))];
-                    break;
-                case TemplateType.Events:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.Events.ToString()))];
-                    break;
-                case TemplateType.Interface:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.Interface.ToString()))];
-                    break;
-                case TemplateType.ManagerPropertyDrawer:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.ManagerPropertyDrawer.ToString()))];
-                    break;
-                case TemplateType.Manager:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.Manager.ToString()))];
-                    break;
-                case TemplateType.MonoBehaviour:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.MonoBehaviour.ToString()))];
-                    break;
-                case TemplateType.PropertyDrawer:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.PropertyDrawer.ToString()))];
-                    break;
-                case TemplateType.ServicePropertyDrawer:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.ServicePropertyDrawer.ToString()))];
-                    break;
-                case TemplateType.Service:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.Service.ToString()))];
-                    break;
-                case TemplateType.EmptyClass:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.EmptyClass.ToString()))];
-                    break;
-                case TemplateType.ScriptableObject:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.ScriptableObject.ToString()))];
-                    break;
-                case TemplateType.EditorWindow:
-                    template = templates[names.IndexOf(names.First(x => x == TemplateType.EditorWindow.ToString()))];
-                    break;
-            }
-            
-            InternalGenerateClass(File.ReadAllText(template), directory, className, newNamespace, pingAsset);
+            string template = templates[names.IndexOf(templateType.ToString())];
+            InternalGenerateClass(File.ReadAllText(template), directory, className, newNamespace, pingAsset, flagValue);
         }
 
-        private void InternalGenerateClass(string template, string directory, string className, string classNamespace, bool pingAsset)
+        private void InternalGenerateClass(string template, string directory, string className, string classNamespace, bool pingAsset, bool flagValue = true)
         {
             if (string.IsNullOrWhiteSpace(classNamespace))
             {
@@ -104,6 +63,7 @@ namespace DandyDino.Modulate
             template = template.Replace(MENU_NAME, menuName);
             template = template.Replace(NAME, name);
             template = template.Replace(ADDITIONAL_USING, additionalUsing);
+            template = template.Replace(FLAG_VALUE, flagValue ? "true" : "false");
             
             string[] existingFiles = AssetDatabase.FindAssets("t:Script" , new[] { directory });
             List<string> sameName = new List<string>();

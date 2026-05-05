@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Object = UnityEngine.Object;
 
@@ -7,18 +8,6 @@ namespace DandyDino.Modulate
 {
     public static class ReflectionUtility
     {
-        public static Type GetManagerGenericType(Type classType)
-        {
-            Type baseType = classType.BaseType;
-            
-            if (baseType != null && baseType.IsGenericType && baseType.GetGenericTypeDefinition() == typeof(Manager<>))
-            {
-                return baseType.GetGenericArguments()[0];
-            }
-
-            return null;
-        }
-        
         public static List<Type> GetAllClassesOfType<T>()
         {
             List<Type> result = new List<Type>();
@@ -87,6 +76,39 @@ namespace DandyDino.Modulate
             }
 
             return result;
+        }
+        
+        public static IEnumerable<Type> GetAllManagerTypes()
+        {
+            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                Type[] types;
+                try
+                {
+                    types = assembly.GetTypes();
+                }
+                catch (ReflectionTypeLoadException ex)
+                {
+                    types = ex.Types.Where(t => t != null).ToArray();
+                }
+
+                foreach (Type type in types)
+                {
+                    if (type == null) continue;
+                    if (type.IsAbstract || type.IsInterface) continue;
+                    if (type.IsGenericTypeDefinition) continue;
+
+                    if (ImplementsIManager(type))
+                    {
+                        yield return type;
+                    }
+                }
+            }
+        }
+        
+        private static bool ImplementsIManager(Type type)
+        {
+            return typeof(IManager).IsAssignableFrom(type);
         }
     }
 }

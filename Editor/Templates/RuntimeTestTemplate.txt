@@ -1,0 +1,43 @@
+using System.Collections;
+using NUnit.Framework;
+using UnityEngine;
+using UnityEngine.TestTools;
+
+namespace #Namespace#.Tests.Runtime
+{  
+    // To open Test Runner go to Window -> General -> Test Runner
+    public class #Name#RuntimeTests
+    {
+        [Test]
+        public void GameObject_HasTransformComponent()
+        {
+            // Silly example, does a GameObject has a given component?
+            // This can catch assets missing a component in project, for example and save you from a bug.
+            GameObject go = new GameObject("TestObject");
+
+            Assert.IsNotNull(go.GetComponent<Transform>());
+
+            Object.Destroy(go);
+        }
+
+        [UnityTest]
+        public IEnumerator GameObject_FallsUnderGravity_OverTime()
+        {
+            // Example of checking something happening over time.
+            
+            // Setup
+            GameObject go = new GameObject("FallingObject");
+            Rigidbody rb = go.AddComponent<Rigidbody>();
+            rb.useGravity = true;
+            go.transform.position = Vector3.zero;
+            // Wait a bit so the object will move due to gravity
+            yield return new WaitForSeconds(1f);
+
+            // Assert — gravity should have pulled it down
+            Assert.Less(go.transform.position.y, 0f);
+
+            // Cleanup
+            Object.Destroy(go);
+        }
+    }
+}

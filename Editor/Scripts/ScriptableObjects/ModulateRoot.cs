@@ -5,11 +5,13 @@ using UnityEngine;
 
 namespace DandyDino.Modulate
 {
+    
     public class ModulateRoot : ScriptableObject
     {
         public string Path => DDElements.Assets.GetAssetPath(this);
         public string Editor => $"{System.IO.Path.GetDirectoryName(Path)}/Editor";
         public string Templates => $"{Editor}/Templates";
+        public string SrcFiles => $"{Editor}/SrcFiles";
         public string Textures => $"{Editor}/Textures";
         public Texture Banner => AssetDatabase.LoadAssetAtPath<Texture>($"{Textures}/Banner.png");
         public Texture Modules => AssetDatabase.LoadAssetAtPath<Texture>($"{Textures}/Modules.png");
@@ -37,6 +39,21 @@ namespace DandyDino.Modulate
             }
 
             return templatesPath;
+        }
+        
+        public List<string> GetAllCopyableFiles()
+        {
+            string[] guids = AssetDatabase.FindAssets("", new[] { SrcFiles });
+        
+            List<string> paths = new List<string>();
+        
+            foreach (string guid in guids)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                paths.Add(path);
+            }
+
+            return paths;
         }
     }
 }

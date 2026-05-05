@@ -16,8 +16,13 @@ namespace DandyDino.Modulate
         public string[] includePlatforms { get; set; }
         public string[] excludePlatforms { get; set; }
         public string[] defineConstraints { get; set; }
+        public string[] optionalUnityReferences { get; set; }
+        public string[] precompiledReferences { get; set; }
+        
         public bool allowUnsafeCode { get; set; }
-
+        public bool overrideReferences { get; set; }
+        public bool autoReferenced { get; set; }
+        
         public static AssemblyDefinition FromPath(string asmdefPath)
         {
             string asmdefText = File.ReadAllText(asmdefPath);

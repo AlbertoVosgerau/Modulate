@@ -1,21 +1,11 @@
-using System;
+using UnityEngine;
 using DandyDino.Modulate;
 
 namespace #Namespace#
 {
-    [Serializable]
-    public class #Name#Manager : Manager<#Type#Service>, IDependencyProvider
+     // If Singleton, this manager will accept a single view registration. If false, any number of views can register
+    [Manager(isSingleton:#flag#)]
+    public class #Name#Manager : BaseManager<#Name#View>
     {
-        [Provide] private #Name#Manager Provide => this;
-        
-        public override void Start()
-        {
-
-        }
-
-        public override void Update()
-        {
-
-        }
     }
 }

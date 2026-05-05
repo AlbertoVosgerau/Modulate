@@ -13,6 +13,7 @@ namespace DandyDino.Modulate
         private Game _game;
         private ModulateRoot _modulate;
         private bool _hasFocused = false;
+        private bool _isSingleton = true;
         
         private Vector2 _includedAssembliesScroll;
         private Vector2 _availableAssembliesScroll;
@@ -45,11 +46,26 @@ namespace DandyDino.Modulate
             DDElements.Rendering.DrawBannerTexture(_modulate.Modules, DDElements.EditorUtils.GetWidth(), DDElements.EditorUtils.GetWidth() * 0.1f, ScaleMode.ScaleAndCrop);
             DDElements.Layout.Space(8);
             
-            GUI.SetNextControlName("InputField");
-            DDElements.Rendering.TextField(ref _moduleName, str =>
+            DDElements.Layout.Row(() =>
             {
+                GUI.SetNextControlName("InputField");
+                DDElements.Rendering.TextField(ref _moduleName, str =>
+                {
                         
-            }, style: DDElements.Styles.TextFieldUnderline(), options: GUILayout.Height(25));
+                }, style: DDElements.Styles.TextFieldUnderline(), options: GUILayout.Height(25));
+                
+                DDElements.Layout.Space(5);
+                DDElements.Rendering.Label("Singleton");
+                
+                DDElements.Layout.Space(2);
+
+                DDElements.Rendering.Switch(_isSingleton, "".ToGUIContent(), value =>
+                {
+                    _isSingleton = value;
+                });
+                
+                DDElements.Layout.Space(8);
+            });
                         
             if (!_hasFocused)
             {
@@ -87,7 +103,7 @@ namespace DandyDino.Modulate
         private void ProceedToModuleCreation()
         {
             _window.Close();
-            string modulePath = ModuleCreator.CreateModule(_path, _moduleName, _assembliesToAdd);
+            string modulePath = ModuleCreator.CreateModule(_path, _moduleName, _assembliesToAdd, isSingleton:_isSingleton);
             EditorUtility.FocusProjectWindow();
             DDElements.Assets.Ping(modulePath);
         }

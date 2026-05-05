@@ -138,10 +138,9 @@ namespace DandyDino.Modulate
                                 });
                                 
                                 DDElements.Layout.Space(5);
-                                DDElements.Rendering.IconButton(DDElements.Icons.ColorScript("Open Service"), () =>
+                                DDElements.Rendering.IconButton(DDElements.Icons.View("Open View"), () =>
                                 {
-                                    
-                                    DDElements.Assets.OpenAsset<MonoScript>(module.ServicesClassPath);
+                                    DDElements.Assets.OpenAsset<MonoScript>(module.ViewClassPath);
                                     Close();
                                 });
                                 
