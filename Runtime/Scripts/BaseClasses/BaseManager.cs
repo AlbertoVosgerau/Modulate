@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Reflection;
+using R3;
+using UnityEngine;
 
 namespace DandyDino.Modulate
 {
@@ -11,18 +12,25 @@ namespace DandyDino.Modulate
         private TView View => _views.Count > 0 ? _views[0] : default;
         public Type ViewType => typeof(TView);
         protected readonly List<TView> _views = new();
-        
+
         public bool IsSingleton { get; }
-        
+
+        private DisposableBag _disposable;
+
         protected BaseManager()
         {
             IsSingleton = GetType().GetCustomAttribute<ManagerAttribute>()?.IsSingleton ?? true;
 
-            EventBus<RegisterViewEvt>.OnEvent += OnRegister;
-            EventBus<UnRegisterViewEvt>.OnEvent += OnUnregister;
+            EventBus<RegisterViewEvt>.AsObservable()
+                .Subscribe(OnRegisterView)
+                .AddTo(ref _disposable);
+
+            EventBus<UnRegisterViewEvt>.AsObservable()
+                .Subscribe(OnUnregisterView)
+                .AddTo(ref _disposable);
         }
 
-        private void OnRegister(RegisterViewEvt evt)
+        private void OnRegisterView(RegisterViewEvt evt)
         {
             if (evt.view is not TView view) return;
             if (IsSingleton && _views.Count > 0)
@@ -33,35 +41,21 @@ namespace DandyDino.Modulate
             _views.Add(view);
         }
 
-        private void OnUnregister(UnRegisterViewEvt evt)
+        private void OnUnregisterView(UnRegisterViewEvt evt)
         {
-            if (evt.view is TView view) _views.Remove(view);
+            if (evt.view is TView view)
+            {
+                _views.Remove(view);
+            }
         }
 
-        public virtual void Dispose()
-        {
-            EventBus<RegisterViewEvt>.OnEvent -= OnRegister;
-            EventBus<UnRegisterViewEvt>.OnEvent -= OnUnregister;
-        }
-        
-        public virtual void Start()
-        {
-            
-        }
+        public virtual void Dispose() => _disposable.Dispose();
 
-        public virtual void Update()
-        {
-            
-        }
+        public virtual void Start() { }
+        public void PreUpdate() { }
 
-        public virtual void LateUpdate()
-        {
-            
-        }
-
-        public virtual void FixedUpdate()
-        {
-            
-        }
+        public virtual void Update() { }
+        public virtual void LateUpdate() { }
+        public virtual void FixedUpdate() { }
     }
 }

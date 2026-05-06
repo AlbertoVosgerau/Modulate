@@ -2,8 +2,9 @@
     "name": "DandyDino.Modulate",
     "rootNamespace": "DandyDino.Modulate",
     "references": [
-        "GUID:f51ebe6a0ceec4240a699833d6309b23",
-        "GUID:1530a967b84cfb44dbdd5e8a1989764f"
+        "GUID:1530a967b84cfb44dbdd5e8a1989764f",
+        "GUID:77221876cc6b8244180b96e320b1bcd4",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

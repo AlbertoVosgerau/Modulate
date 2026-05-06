@@ -8,8 +8,10 @@ namespace DandyDino.Modulate
         bool IsSingleton { get; }
 
         void Start();
+        void PreUpdate();
         void Update();
         void LateUpdate();
         void FixedUpdate();
+        
     }
 }

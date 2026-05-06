@@ -1,54 +1,38 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+using R3;
 
 namespace DandyDino.Modulate
 {
     public static class EventBus<T> where T : IEvent
     {
-        private static readonly HashSet<IEventBinding<T>> bindings = new HashSet<IEventBinding<T>>();
-        
-        public static event Action<T> OnEvent
-        {
-            add
-            {
-                EventBinding<T> binding = new EventBinding<T>(value);
-                Register(binding, value);
-            }
-            remove
-            {
-                IEventBinding<T> bindingToRemove = bindings.FirstOrDefault(b => b.OnEvent == value);
-                if (bindingToRemove != null)
-                {
-                    Unregister(bindingToRemove);
-                }
-            }
-        }
-        
-        private static void Register(EventBinding<T> eventBinding, Action<T> action)
-        {
-            eventBinding = new EventBinding<T>(action);
-            Register(eventBinding);
-        }
+        private static Action<T> _withArg;
+        private static Action _noArg;
 
-        private static void Register(EventBinding<T> binding) => bindings.Add(binding);
-        private static void Unregister(IEventBinding<T> binding) => bindings.Remove(binding);
+        public static void Register(Action<T> handler) => _withArg += handler;
+        public static void Unregister(Action<T> handler) => _withArg -= handler;
+
+        public static void Register(Action handler) => _noArg += handler;
+        public static void Unregister(Action handler) => _noArg -= handler;
+        
+        static EventBus()
+        {
+            EventBusUtils.RegisterBus(Clear);
+        }
 
         public static void Raise(T @event)
         {
-            var bindingsList = bindings.ToList();
-            for (int i = 0; i < bindingsList.Count; i++)
-            {
-                IEventBinding<T> binding = bindingsList[i];
-                binding.OnEvent?.Invoke(@event);
-                binding.OnEventNoArgs?.Invoke();
-            }
+            Action<T> withArg = _withArg;
+            Action noArg   = _noArg;
+            withArg?.Invoke(@event);
+            noArg?.Invoke();
         }
+        
+        public static Observable<T> AsObservable() => Observable.FromEvent<T>( h => _withArg += h, h => _withArg -= h);
 
         private static void Clear()
         {
-            bindings.Clear();
+            _withArg = null;
+            _noArg   = null;
         }
     }
 }

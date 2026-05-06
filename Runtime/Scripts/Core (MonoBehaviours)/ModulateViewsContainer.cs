@@ -11,7 +11,6 @@ namespace DandyDino.Modulate
     public class ModulateViewsContainer : MonoBehaviour, IInstaller
     {
         [Inject] private readonly IEnumerable<IManager> _viewManagers;
-        [SerializeField] private List<string> _openViewComponents = new List<string>();
         
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
