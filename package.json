@@ -10,11 +10,7 @@
   "license": "WTFPL",
   "licenseUrl": "https://github.com/AlbertoVosgerau/Modulate/blob/main/LICENSE.md",
   "dependencies": {
-    "com.unity.nuget.newtonsoft-json": "3.2.1",
-    "com.dandydino.elements": "https://github.com/AlbertoVosgerau/DDElements.git#0.2.0",
-    "com.gustavopsantos.reflex": "14.3.0",
-    "com.cysharp.r3": "https://github.com/Cysharp/R3.git?path=src/R3.Unity/Assets/R3.Unity#1.3.0",
-    "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.5.10"
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
   },
   "keywords": ["unity", "modules", "architecture"],
   "author": {
