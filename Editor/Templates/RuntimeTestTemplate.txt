@@ -8,6 +8,7 @@ namespace #Namespace#.Tests.Runtime
     // To open Test Runner go to Window -> General -> Test Runner
     public class #Name#RuntimeTests
     {
+    /*
         [Test]
         public void GameObject_HasTransformComponent()
         {
@@ -39,5 +40,6 @@ namespace #Namespace#.Tests.Runtime
             // Cleanup
             Object.Destroy(go);
         }
+    */
     }
 }

@@ -7,9 +7,4 @@ namespace #Namespace#
     // {
     //     public string someString;
     // }
-    
-    public struct ButtonClicked : IEvent
-    {
-        public string someString;
-    }
 }

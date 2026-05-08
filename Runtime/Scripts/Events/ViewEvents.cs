@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace DandyDino.Modulate
 {
     public struct RegisterViewEvt : IEvent

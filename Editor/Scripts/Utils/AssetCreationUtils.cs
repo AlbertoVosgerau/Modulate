@@ -13,7 +13,7 @@ namespace DandyDino.Modulate
     {
         public static bool IsValidFolderName(string folderName)
         {
-            string invalidCharsPattern = @"[\\\/:*?""<>|]";
+            string invalidCharsPattern = @"[\\\/:*?!@#$%^&*(){}""<>|]";
             
             if (Regex.IsMatch(folderName, invalidCharsPattern) || 
                 folderName.EndsWith(".") || folderName.EndsWith(" "))

@@ -10,10 +10,21 @@ namespace DandyDino.Modulate
     {
         private FeatureToggleAsset _target;
 
+        private GUIStyle _bodyText;
+
         private void OnEnable()
         {
             _target = (FeatureToggleAsset)target;
             _target.Refresh();
+            
+            _bodyText = new GUIStyle(EditorStyles.label)
+            {
+                wordWrap = true,
+                richText = true,
+                alignment = TextAnchor.UpperLeft,
+                fontSize = 12,
+                padding = new RectOffset(4, 4, 4, 4)
+            };
         }
 
         public override void OnInspectorGUI()
@@ -40,7 +51,7 @@ namespace DandyDino.Modulate
                             DDElements.Layout.FlexibleSpace();
                         });
                         DDElements.Layout.Space(5);
-                        DDElements.Rendering.Label("Use Feature Toggle to enable or disable Managers. Disabled features won't be created on Startup.");
+                       EditorGUILayout.LabelField("Use Feature Toggle to enable or disable Managers. Disabled features won't be created on Startup.", _bodyText);
                         DDElements.Rendering.Line();
                         DDElements.Layout.Space(10);
                 

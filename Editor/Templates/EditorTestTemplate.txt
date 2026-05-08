@@ -5,6 +5,7 @@ namespace #Namespace#.Tests.Editor
     // To open Test Runner go to Window -> General -> Test Runner
     public class #Name#EditorTests
     {
+    /*
         // Some silly test
         [TestCase(7, true)]
         [TestCase(4, true)]
@@ -27,5 +28,6 @@ namespace #Namespace#.Tests.Editor
 
             return true;
         }
+    */
     }
 }

@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using UnityEditor;
-using UnityEngine;
 
 namespace DandyDino.Modulate
 {
@@ -13,11 +11,9 @@ namespace DandyDino.Modulate
             Game game = GameInspector.GetGame();
             string moduleRoot = Path.Combine(path, moduleName);
             string editorFolder = Path.Combine(moduleRoot, StringLibrary.EDITOR);
-            string editorScriptsFolder = Path.Combine(editorFolder, StringLibrary.SCRIPTS);
             string scriptsFolder = Path.Combine(moduleRoot, StringLibrary.SCRIPTS);
             string managerFolder = Path.Combine(scriptsFolder, StringLibrary.MANAGER);
             string viewsFolder = Path.Combine(scriptsFolder, StringLibrary.VIEWS);
-            string monoBehavioursFolder = Path.Combine(scriptsFolder, StringLibrary.MONOBEHAVIOURS);
             string eventsFolder = Path.Combine(scriptsFolder, StringLibrary.EVENTS);
             string testsFolder = Path.Combine(scriptsFolder, StringLibrary.TESTS);
 
@@ -151,59 +147,6 @@ namespace DandyDino.Modulate
                 UnityEditor.SceneManagement.NewSceneMode.Single);
 
             UnityEditor.SceneManagement.EditorSceneManager.SaveScene(newScene, scenePath);
-        }
-        
-        private static string GetTemplatesFolder()
-        {
-            string coreRootGUID = AssetDatabase.FindAssets("t:CoreRoot").FirstOrDefault();
-            string coreRootPath = AssetDatabase.GUIDToAssetPath(coreRootGUID);
-            string coreFolder = Path.GetDirectoryName(coreRootPath);
-            string templatesPath = Path.Combine(coreFolder, "Editor/Templates");
-            Debug.Log(templatesPath);
-            return templatesPath;
-        }
-        
-        private static string GetViewTemplate()
-        {
-            return File.ReadAllText(GetViewTemplatePath());
-        }
-
-        private static string GetManagerTemplate()
-        {
-            return File.ReadAllText(GetManagerTemplatePath());
-        }
-        
-        private static string GetEventsTemplate()
-        {
-            return File.ReadAllText(GetEventsTemplatePath());
-        }
-        private static string GetManagerPropertyDrawerTemplate()
-        {
-            return File.ReadAllText(GetManagerPropertyDrawerTemplatePath());
-        }
-        
-        private static string GetViewTemplatePath()
-        {
-            string templatesFolder = GetTemplatesFolder();
-            return Path.Combine(templatesFolder, "ViewTemplate.txt");
-        }
-
-        private static string GetManagerTemplatePath()
-        {
-            string templatesFolder = GetTemplatesFolder();
-            return Path.Combine(templatesFolder, "ManagerTemplate.txt");
-        }
-        
-        private static string GetEventsTemplatePath()
-        {
-            string templatesFolder = GetTemplatesFolder();
-            return Path.Combine(templatesFolder, "EventsTemplate.txt");
-        }
-        
-        private static string GetManagerPropertyDrawerTemplatePath()
-        {
-            string templatesFolder = GetTemplatesFolder();
-            return Path.Combine(templatesFolder, "ManagerPropertyDrawerTemplate.txt");
         }
     }
 }

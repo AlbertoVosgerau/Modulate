@@ -6,6 +6,7 @@ namespace DandyDino.Modulate
     {
         public Game game;
         public Module mainModule;
+        public Module commonsModule;
         public List<Module> modules;
     }
 }

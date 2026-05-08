@@ -149,6 +149,7 @@ namespace DandyDino.Modulate
             projectMap.game = GetExistingGameRoot();
             projectMap.modules = GetModules();
             projectMap.mainModule = projectMap.modules.Where(x => x.ModuleName == StringLibrary.MAIN_MODULE).FirstOrDefault();
+            projectMap.commonsModule = projectMap.modules.Where(x => x.ModuleName == StringLibrary.COMMONS_MODULE).FirstOrDefault();
 
             return projectMap;
         }
